@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View All Products Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffeef8, #f0e6ff);
+        }
+        .demo-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .feature-box {
+            background: linear-gradient(135deg, #ec4899, #f472b6);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        .step {
+            background: #f8f9fa;
+            border-left: 4px solid #ec4899;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .highlight {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        button {
+            background: linear-gradient(45deg, #ec4899, #f472b6);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 10px 5px;
+            transition: all 0.3s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(236, 72, 153, 0.3);
+        }
+        .chat-preview {
+            background: #f8f9fa;
+            border: 2px solid #ec4899;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            font-family: monospace;
+        }
+        .user-message {
+            background: linear-gradient(45deg, #ec4899, #f472b6);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px 20px 5px 20px;
+            margin: 10px 0;
+            display: inline-block;
+            float: right;
+            clear: both;
+        }
+        .bot-message {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 10px 15px;
+            border-radius: 20px 20px 20px 5px;
+            margin: 10px 0;
+            display: inline-block;
+            float: left;
+            clear: both;
+            max-width: 80%;
+        }
+        .product-card {
+            background: #fff;
+            border: 2px solid #ec4899;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .view-all-btn {
+            background: linear-gradient(45deg, #ec4899, #f472b6);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 15px auto;
+            display: block;
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1 style="text-align: center; color: #ec4899;">👀 View All Products Feature Demo</h1>
+        
+        <div class="feature-box">
+            <h2>🎯 New Features Implemented</h2>
+            <ul>
+                <li>✅ Show only 2 products initially for clean interface</li>
+                <li>✅ "View All" button when more products available</li>
+                <li>✅ Expand to show all products in same chat</li>
+                <li>✅ "Show Less" to collapse back to 2 products</li>
+                <li>✅ Improved scrolling with auto-scroll to bottom</li>
+                <li>✅ Backend returns 10 products instead of 5</li>
+            </ul>
+        </div>
+
+        <h2>🎬 How It Works</h2>
+        
+        <div class="step">
+            <h3>Step 1: User Searches for Products</h3>
+            <div class="chat-preview">
+                <div class="user-message">show me products under ₹2000</div>
+                <div style="clear: both;"></div>
+            </div>
+        </div>
+
+        <div class="step">
+            <h3>Step 2: Chat Shows 2 Products + View All Button</h3>
+            <div class="chat-preview">
+                <div class="bot-message">
+                    Here are the best matches 😊<br><br>
+                    🔍 Searching: under ₹2,000
+                </div>
+                <div style="clear: both;"></div>
+                
+                <div class="product-card">
+                    <strong>1. Classic Navy Blue Plain T-Shirt</strong><br>
+                    💰 ₹521 | 🎨 Navy | 👨 Men | 🏷️ T-shirts
+                </div>
+                
+                <div class="product-card">
+                    <strong>2. Unisex Multi-Pocket Oversized Cargoes</strong><br>
+                    💰 ₹541 | 🎨 Deep Burgundy | 👤 Unisex | 🏷️ Bottom Wear
+                </div>
+                
+                <button class="view-all-btn">👀 View All 10 Products 📦</button>
+            </div>
+        </div>
+
+        <div class="step">
+            <h3>Step 3: User Clicks "View All"</h3>
+            <div class="highlight">
+                <strong>Action:</strong> User clicks the "View All 10 Products" button
+            </div>
+        </div>
+
+        <div class="step">
+            <h3>Step 4: Chat Expands to Show All Products</h3>
+            <div class="chat-preview">
+                <div class="product-card">
+                    <strong>1. Classic Navy Blue Plain T-Shirt</strong><br>
+                    💰 ₹521 | 🎨 Navy | 👨 Men | 🏷️ T-shirts
+                </div>
+                
+                <div class="product-card">
+                    <strong>2. Unisex Multi-Pocket Oversized Cargoes</strong><br>
+                    💰 ₹541 | 🎨 Deep Burgundy | 👤 Unisex | 🏷️ Bottom Wear
+                </div>
+                
+                <div class="product-card">
+                    <strong>3. Distressed Frayed Patchwork Baggy Jeans</strong><br>
+                    💰 ₹543 | 🎨 Blue | 👨 Men | 🏷️ Bottom Wear
+                </div>
+                
+                <div style="text-align: center; margin: 15px 0; color: #666;">
+                    ... and 7 more products displayed ...
+                </div>
+                
+                <div class="success">
+                    ✅ Showing all 10 products
+                </div>
+                
+                <button class="view-all-btn" style="background: linear-gradient(45deg, #6c757d, #868e96);">
+                    🔼 Show Less
+                </button>
+            </div>
+        </div>
+
+        <h2>🎨 User Experience Benefits</h2>
+        
+        <div class="feature-box">
+            <h3>Before (Problem):</h3>
+            <ul>
+                <li>❌ Showed 3 products with "5 more available" message</li>
+                <li>❌ No way to see remaining products in chat</li>
+                <li>❌ Poor scrolling behavior</li>
+                <li>❌ Cluttered interface with too many products</li>
+            </ul>
+        </div>
+
+        <div class="success">
+            <h3>After (Solution):</h3>
+            <ul>
+                <li>✅ Clean interface with 2 products initially</li>
+                <li>✅ "View All" button shows exact count</li>
+                <li>✅ All products viewable in same chat</li>
+                <li>✅ Smooth auto-scrolling behavior</li>
+                <li>✅ "Show Less" to collapse when needed</li>
+                <li>✅ Better performance and user control</li>
+            </ul>
+        </div>
+
+        <h2>🧪 Test Instructions</h2>
+        
+        <div class="step">
+            <h3>Try These Queries:</h3>
+            <button onclick="copyToClipboard('show me products under ₹2000')">show me products under ₹2000</button>
+            <button onclick="copyToClipboard('find dresses for women')">find dresses for women</button>
+            <button onclick="copyToClipboard('show me shirts')">show me shirts</button>
+            <button onclick="copyToClipboard('products under 1500')">products under 1500</button>
+        </div>
+
+        <div class="highlight">
+            <strong>Expected Behavior:</strong>
+            <ol>
+                <li>Chat shows 2 products initially</li>
+                <li>"View All X Products" button appears (if more than 2)</li>
+                <li>Click button to expand and see all products</li>
+                <li>"Show Less" button to collapse back</li>
+                <li>Smooth scrolling throughout</li>
+            </ol>
+        </div>
+
+        <div class="success">
+            <h3>🚀 Ready to Test!</h3>
+            <p>Open your FashionPulse chat at <strong>http://localhost:3000</strong> and try the queries above!</p>
+        </div>
+    </div>
+
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                alert('Query copied to clipboard: "' + text + '"');
+            });
+        }
+    </script>
+</body>
+</html>

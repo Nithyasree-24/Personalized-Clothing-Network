@@ -1,0 +1,83 @@
+/* Pink Gradient Theme - Global Overrides */
+
+/* Main page backgrounds */
+.min-h-screen {
+  background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 25%, #f48fb1 50%, #f06292 75%, #ec407a 100%) !important;
+  background-attachment: fixed !important;
+}
+
+/* White sections to pink gradient */
+.bg-white {
+  background: linear-gradient(to right, #fce4ec, #f8bbd0) !important;
+}
+
+/* Brown colors to pink */
+[class*="bg-[#8B6F47]"],
+[class*="text-[#8B6F47]"],
+[class*="border-[#8B6F47]"] {
+  background: linear-gradient(to right, #ec407a, #c2185b) !important;
+  color: #ec407a !important;
+  border-color: #ec407a !important;
+}
+
+[class*="bg-[#D4A574]"],
+[class*="border-[#D4A574]"] {
+  background: #f48fb1 !important;
+  border-color: #f48fb1 !important;
+}
+
+[class*="bg-[#f5f1e8]"],
+[class*="hover:bg-[#f5f1e8]"]:hover {
+  background: #fce4ec !important;
+}
+
+/* Gray backgrounds to pink */
+.bg-gray-50 {
+  background: #fce4ec !important;
+}
+
+.bg-gray-100 {
+  background: #f8bbd0 !important;
+}
+
+.bg-gray-900 {
+  background: linear-gradient(to right, #c2185b, #880e4f) !important;
+}
+
+/* Buttons */
+button[class*="bg-gradient"] {
+  background: linear-gradient(to right, #ec407a, #c2185b) !important;
+}
+
+/* Borders */
+.border-gray-300 {
+  border-color: #f48fb1 !important;
+}
+
+.border-gray-200 {
+  border-color: #f8bbd0 !important;
+}
+
+/* Focus states */
+*:focus {
+  border-color: #ec407a !important;
+  outline-color: #ec407a !important;
+}
+
+/* Hover states */
+*:hover {
+  transition: all 0.3s ease !important;
+}
+
+/* Shadows */
+.shadow-md {
+  box-shadow: 0 4px 6px -1px rgba(236, 64, 122, 0.1), 0 2px 4px -1px rgba(236, 64, 122, 0.06) !important;
+}
+
+.shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(236, 64, 122, 0.1), 0 4px 6px -2px rgba(236, 64, 122, 0.05) !important;
+}
+
+.shadow-xl {
+  box-shadow: 0 20px 25px -5px rgba(236, 64, 122, 0.1), 0 10px 10px -5px rgba(236, 64, 122, 0.04) !important;
+}

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Tone & Body Fit Flows Test - FashionPulse</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .animate-bounce {
+            animation: bounce 1s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 53%, 80%, 100% {
+                transform: translate3d(0,0,0);
+            }
+            40%, 43% {
+                transform: translate3d(0,-30px,0);
+            }
+            70% {
+                transform: translate3d(0,-15px,0);
+            }
+            90% {
+                transform: translate3d(0,-4px,0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-4xl font-bold text-center text-pink-600 mb-8">
+                🎨 Face Tone & Body Fit Flows Test
+            </h1>
+            
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">✨ Test Results</h2>
+                <div id="testResults" class="space-y-4">
+                    <div class="text-gray-600">Running tests...</div>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Face Tone Flow Test -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h3 class="text-xl font-bold text-pink-600 mb-4">🎨 Face Tone Flow</h3>
+                    <div class="space-y-4">
+                        <button onclick="testFaceToneFlow('Fair', 'Blue', 'Women', 'Dresses')" 
+                                class="w-full bg-pink-500 text-white py-2 px-4 rounded hover:bg-pink-600 transition-colors">
+                            Test: Fair → Blue → Women → Dresses
+                        </button>
+                        <button onclick="testFaceToneFlow('Wheatish', 'Red', 'Men', 'Shirts')" 
+                                class="w-full bg-pink-500 text-white py-2 px-4 rounded hover:bg-pink-600 transition-colors">
+                            Test: Wheatish → Red → Men → Shirts
+                        </button>
+                        <button onclick="testFaceToneFlow('Dusky', 'White', 'Women', 'Western Wear')" 
+                                class="w-full bg-pink-500 text-white py-2 px-4 rounded hover:bg-pink-600 transition-colors">
+                            Test: Dusky → White → Women → Western Wear
+                        </button>
+                        <button onclick="testFaceToneFlow('Dark', 'Green', 'Men', 'T-shirts')" 
+                                class="w-full bg-pink-500 text-white py-2 px-4 rounded hover:bg-pink-600 transition-colors">
+                            Test: Dark → Green → Men → T-shirts
+                        </button>
+                    </div>
+                    <div id="faceToneResults" class="mt-4 p-4 bg-gray-50 rounded min-h-[100px]">
+                        <div class="text-gray-500">Click a button to test Face Tone flow</div>
+                    </div>
+                </div>
+
+                <!-- Body Fit Flow Test -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h3 class="text-xl font-bold text-blue-600 mb-4">👕 Body Fit Flow</h3>
+                    <div class="space-y-4">
+                        <button onclick="testBodyFitFlow('Men', 'Slim', 'Shirts')" 
+                                class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors">
+                            Test: Men → Slim → Shirts
+                        </button>
+                        <button onclick="testBodyFitFlow('Women', 'Curvy', 'Dresses')" 
+                                class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors">
+                            Test: Women → Curvy → Dresses
+                        </button>
+                        <button onclick="testBodyFitFlow('Men', 'Athletic', 'T-shirts')" 
+                                class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors">
+                            Test: Men → Athletic → T-shirts
+                        </button>
+                        <button onclick="testBodyFitFlow('Women', 'Plus Size', 'Western Wear')" 
+                                class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors">
+                            Test: Women → Plus Size → Western Wear
+                        </button>
+                    </div>
+                    <div id="bodyFitResults" class="mt-4 p-4 bg-gray-50 rounded min-h-[100px]">
+                        <div class="text-gray-500">Click a button to test Body Fit flow</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Regular Chat Test -->
+            <div class="bg-white rounded-lg shadow-lg p-6 mt-8">
+                <h3 class="text-xl font-bold text-green-600 mb-4">💬 Regular Chat Test</h3>
+                <div class="flex gap-4 mb-4">
+                    <input type="text" id="chatInput" placeholder="Type a message..." 
+                           class="flex-1 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-400">
+                    <button onclick="testRegularChat()" 
+                            class="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 transition-colors">
+                        Send
+                    </button>
+                </div>
+                <div class="space-y-2 mb-4">
+                    <button onclick="testRegularChat('show me red dresses')" 
+                            class="bg-green-100 text-green-700 px-3 py-1 rounded text-sm hover:bg-green-200">
+                        "show me red dresses"
+                    </button>
+                    <button onclick="testRegularChat('hi')" 
+                            class="bg-green-100 text-green-700 px-3 py-1 rounded text-sm hover:bg-green-200">
+                        "hi"
+                    </button>
+                    <button onclick="testRegularChat('what is your return policy')" 
+                            class="bg-green-100 text-green-700 px-3 py-1 rounded text-sm hover:bg-green-200">
+                        "what is your return policy"
+                    </button>
+                </div>
+                <div id="chatResults" class="p-4 bg-gray-50 rounded min-h-[100px]">
+                    <div class="text-gray-500">Type a message or click a suggestion to test regular chat</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:5001/api/chat';
+        
+        // Test system status on page load
+        window.onload = function() {
+            testSystemStatus();
+        };
+
+        async function testSystemStatus() {
+            const resultsDiv = document.getElementById('testResults');
+            resultsDiv.innerHTML = '<div class="text-blue-600">🔄 Testing system status...</div>';
+            
+            try {
+                // Test chat agent
+                const chatResponse = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: 'hi' })
+                });
+                
+                // Test backend
+                const backendResponse = await fetch('http://localhost:5000/api/products');
+                
+                let status = '';
+                if (chatResponse.ok) {
+                    status += '<div class="text-green-600">✅ Chat Agent Server: Running (Port 5001)</div>';
+                } else {
+                    status += '<div class="text-red-600">❌ Chat Agent Server: Not responding</div>';
+                }
+                
+                if (backendResponse.ok) {
+                    status += '<div class="text-green-600">✅ Backend Server: Running (Port 5000)</div>';
+                } else {
+                    status += '<div class="text-red-600">❌ Backend Server: Not responding</div>';
+                }
+                
+                status += '<div class="text-blue-600 mt-2">🎯 Ready to test Face Tone and Body Fit flows!</div>';
+                resultsDiv.innerHTML = status;
+                
+            } catch (error) {
+                resultsDiv.innerHTML = `<div class="text-red-600">❌ System Error: ${error.message}</div>`;
+            }
+        }
+
+        async function testFaceToneFlow(tone, color, gender, category) {
+            const resultsDiv = document.getElementById('faceToneResults');
+            resultsDiv.innerHTML = '<div class="text-blue-600">🔄 Testing Face Tone flow...</div>';
+            
+            try {
+                const flowData = {
+                    message: JSON.stringify({
+                        type: 'faceToneFlow',
+                        color: color.toLowerCase(),
+                        gender: gender.toLowerCase(),
+                        category: category
+                    })
+                };
+                
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(flowData)
+                });
+                
+                const data = await response.json();
+                
+                let html = `
+                    <div class="text-green-600 font-bold">✅ Face Tone Flow Success!</div>
+                    <div class="text-sm text-gray-600 mt-1">
+                        ${tone} → ${color} → ${gender} → ${category}
+                    </div>
+                    <div class="mt-2 text-sm">
+                        <strong>Response:</strong> ${data.response.substring(0, 100)}...
+                    </div>
+                    <div class="mt-2 text-sm">
+                        <strong>Products Found:</strong> ${data.products ? data.products.length : 0}
+                    </div>
+                `;
+                
+                if (data.products && data.products.length > 0) {
+                    html += `
+                        <div class="mt-2 text-sm">
+                            <strong>First Product:</strong> ${data.products[0].product_name}
+                        </div>
+                        <div class="text-sm">
+                            <strong>Price:</strong> ₹${data.products[0].price}
+                        </div>
+                    `;
+                }
+                
+                resultsDiv.innerHTML = html;
+                
+            } catch (error) {
+                resultsDiv.innerHTML = `<div class="text-red-600">❌ Error: ${error.message}</div>`;
+            }
+        }
+
+        async function testBodyFitFlow(gender, bodyType, category) {
+            const resultsDiv = document.getElementById('bodyFitResults');
+            resultsDiv.innerHTML = '<div class="text-blue-600">🔄 Testing Body Fit flow...</div>';
+            
+            try {
+                const flowData = {
+                    message: JSON.stringify({
+                        type: 'bodyFitFlow',
+                        gender: gender.toLowerCase(),
+                        bodyType: bodyType,
+                        category: category
+                    })
+                };
+                
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(flowData)
+                });
+                
+                const data = await response.json();
+                
+                let html = `
+                    <div class="text-green-600 font-bold">✅ Body Fit Flow Success!</div>
+                    <div class="text-sm text-gray-600 mt-1">
+                        ${gender} → ${bodyType} → ${category}
+                    </div>
+                    <div class="mt-2 text-sm">
+                        <strong>Response:</strong> ${data.response.substring(0, 100)}...
+                    </div>
+                    <div class="mt-2 text-sm">
+                        <strong>Products Found:</strong> ${data.products ? data.products.length : 0}
+                    </div>
+                `;
+                
+                if (data.products && data.products.length > 0) {
+                    html += `
+                        <div class="mt-2 text-sm">
+                            <strong>First Product:</strong> ${data.products[0].product_name}
+                        </div>
+                        <div class="text-sm">
+                            <strong>Price:</strong> ₹${data.products[0].price}
+                        </div>
+                    `;
+                }
+                
+                resultsDiv.innerHTML = html;
+                
+            } catch (error) {
+                resultsDiv.innerHTML = `<div class="text-red-600">❌ Error: ${error.message}</div>`;
+            }
+        }
+
+        async function testRegularChat(message = null) {
+            const resultsDiv = document.getElementById('chatResults');
+            const inputElement = document.getElementById('chatInput');
+            
+            const testMessage = message || inputElement.value.trim();
+            if (!testMessage) return;
+            
+            resultsDiv.innerHTML = '<div class="text-blue-600">🔄 Sending message...</div>';
+            
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: testMessage })
+                });
+                
+                const data = await response.json();
+                
+                let html = `
+                    <div class="text-green-600 font-bold">✅ Chat Response</div>
+                    <div class="text-sm text-gray-600 mt-1">
+                        <strong>You:</strong> ${testMessage}
+                    </div>
+                    <div class="mt-2 text-sm">
+                        <strong>Assistant:</strong> ${data.response.substring(0, 200)}${data.response.length > 200 ? '...' : ''}
+                    </div>
+                `;
+                
+                if (data.products && data.products.length > 0) {
+                    html += `
+                        <div class="mt-2 text-sm">
+                            <strong>Products Found:</strong> ${data.products.length}
+                        </div>
+                    `;
+                }
+                
+                resultsDiv.innerHTML = html;
+                inputElement.value = '';
+                
+            } catch (error) {
+                resultsDiv.innerHTML = `<div class="text-red-600">❌ Error: ${error.message}</div>`;
+            }
+        }
+
+        // Allow Enter key in chat input
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                testRegularChat();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "title": "Classic T-Shirt",
+    "price": 19.99,
+    "image": "/assets/tshirt.jpg",
+    "category": "clothing",
+    "gender": "men",
+    "description": "A timeless classic t-shirt made from 100% premium cotton. Perfect for everyday wear, casual outings, and comfortable lounging. Features a comfortable fit and breathable fabric."
+  },
+  {
+    "id": 2,
+    "title": "Summer Dress",
+    "price": 39.99,
+    "image": "/assets/smtshirt.jpg",
+    "category": "clothing",
+    "gender": "women",
+    "description": "Light and breezy summer dress perfect for warm days. Made from soft, breathable cotton blend. Features a flattering silhouette and elegant design ideal for beach trips and casual gatherings."
+  },
+  {
+    "id": 3,
+    "title": "Running Shoes",
+    "price": 59.99,
+    "image": "/assets/shoes.jpg",
+    "category": "footwear",
+    "gender": "men",
+    "description": "Professional running shoes with advanced cushioning technology for maximum comfort. Features lightweight design, breathable mesh, and superior grip for all terrains."
+  },
+  {
+    "id": 4,
+    "title": "Leather Handbag",
+    "price": 89.99,
+    "image": "/assets/handbag.jpg",
+    "category": "accessories",
+    "gender": "women",
+    "description": "Elegant leather handbag crafted from premium Italian leather. Spacious interior with multiple compartments, durable handles, and timeless design. Perfect for work and social occasions."
+  },
+  {
+    "id": 5,
+    "title": "Unisex Hoodie",
+    "price": 49.99,
+    "image": "/assets/hoodie.jpg",
+    "category": "clothing",
+    "gender": "unisex",
+    "description": "Comfortable unisex hoodie made from soft cotton blend fabric. Features kangaroo pocket, adjustable drawstrings, and is perfect for layering or wearing solo."
+  }
+]

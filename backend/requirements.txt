@@ -1,0 +1,10 @@
+flask
+flask-cors
+PyJWT
+mysql-connector-python
+requests
+opencv-python
+numpy
+tensorflow
+Pillow
+sqlite3

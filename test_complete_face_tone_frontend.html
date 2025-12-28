@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Tone Flow Test - Fixed</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .success { color: #10b981; }
+        .error { color: #ef4444; }
+        .info { color: #3b82f6; }
+        .product-card {
+            border: 1px solid #e5e7eb;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            background: #f9fafb;
+        }
+        button {
+            background: linear-gradient(to right, #ec4899, #be185d);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        .log {
+            background: #1f2937;
+            color: #f3f4f6;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎨 Face Tone Flow Test - Fixed Version</h1>
+    
+    <div class="test-section">
+        <h2>Test Scenario: Pink + Women + Tops and Co-ord Sets</h2>
+        <p>This tests the exact scenario the user reported as broken.</p>
+        
+        <button onclick="testFaceToneFlow()">🧪 Test Face Tone Flow</button>
+        <button onclick="testBodyFitFlow()">👕 Test Body Fit Flow</button>
+        <button onclick="clearLog()">🧹 Clear Log</button>
+        
+        <div id="results"></div>
+        <div id="log" class="log"></div>
+    </div>
+
+    <script>
+        function log(message) {
+            const logDiv = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logDiv.innerHTML += `[${timestamp}] ${message}\n`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+            document.getElementById('results').innerHTML = '';
+        }
+
+        async function testFaceToneFlow() {
+            log('🎨 Starting Face Tone Flow test...');
+            
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<div class="info">Testing Face Tone Flow...</div>';
+            
+            try {
+                // Test the exact problematic scenario
+                const response = await fetch('http://localhost:5001/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: JSON.stringify({
+                            type: 'faceToneFlow',
+                            color: 'Pink',
+                            gender: 'women',
+                            category: 'Tops and Co-ord Sets'
+                        })
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                log(`✅ API Response received: ${response.status}`);
+                log(`📝 Response text: ${data.response}`);
+                log(`🛍️ Products found: ${data.products ? data.products.length : 0}`);
+
+                let html = '<div class="test-section">';
+                html += `<h3 class="success">✅ Face Tone Flow Test Results</h3>`;
+                html += `<p><strong>Response:</strong> ${data.response}</p>`;
+                html += `<p><strong>Products Found:</strong> ${data.products ? data.products.length : 0}</p>`;
+
+                if (data.products && data.products.length > 0) {
+                    html += '<h4>🛍️ Products:</h4>';
+                    
+                    // Verify all products match criteria
+                    let allMatch = true;
+                    let mismatchDetails = [];
+                    
+                    data.products.forEach((product, index) => {
+                        const colorMatch = product.color.toLowerCase() === 'pink';
+                        const genderMatch = product.gender.toLowerCase() === 'women';
+                        const categoryMatch = product.product_category === 'Tops and Co-ord Sets';
+                        
+                        if (!colorMatch || !genderMatch || !categoryMatch) {
+                            allMatch = false;
+                            mismatchDetails.push(`Product ${index + 1}: Color=${product.color}, Gender=${product.gender}, Category=${product.product_category}`);
+                        }
+                        
+                        html += `<div class="product-card">`;
+                        html += `<strong>${product.product_name}</strong><br>`;
+                        html += `Color: <span class="${colorMatch ? 'success' : 'error'}">${product.color}</span><br>`;
+                        html += `Gender: <span class="${genderMatch ? 'success' : 'error'}">${product.gender}</span><br>`;
+                        html += `Category: <span class="${categoryMatch ? 'success' : 'error'}">${product.product_category}</span><br>`;
+                        html += `Price: ₹${product.price}`;
+                        html += `</div>`;
+                        
+                        log(`📦 Product ${index + 1}: ${product.product_name} (${product.color}, ${product.gender}, ${product.product_category})`);
+                    });
+                    
+                    if (allMatch) {
+                        html += '<p class="success">✅ All products match the search criteria perfectly!</p>';
+                        log('✅ All products match criteria - Face Tone Flow is working correctly!');
+                    } else {
+                        html += '<p class="error">❌ Some products don\'t match criteria:</p>';
+                        mismatchDetails.forEach(detail => {
+                            html += `<p class="error">• ${detail}</p>`;
+                            log(`❌ Mismatch: ${detail}`);
+                        });
+                    }
+                } else {
+                    html += '<p class="error">❌ No products found!</p>';
+                    log('❌ No products found - this indicates the issue is not fixed');
+                }
+
+                html += '</div>';
+                resultsDiv.innerHTML = html;
+
+            } catch (error) {
+                log(`❌ Error: ${error.message}`);
+                resultsDiv.innerHTML = `<div class="error">❌ Error: ${error.message}</div>`;
+            }
+        }
+
+        async function testBodyFitFlow() {
+            log('👕 Starting Body Fit Flow test...');
+            
+            try {
+                const response = await fetch('http://localhost:5001/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: JSON.stringify({
+                            type: 'bodyFitFlow',
+                            gender: 'women',
+                            bodyType: 'Athletic',
+                            category: 'Dresses'
+                        })
+                    })
+                });
+
+                const data = await response.json();
+                log(`✅ Body Fit API Response: ${response.status}`);
+                log(`📝 Response: ${data.response}`);
+                log(`🛍️ Products found: ${data.products ? data.products.length : 0}`);
+
+                if (data.products && data.products.length > 0) {
+                    log('✅ Body Fit Flow is working correctly!');
+                } else {
+                    log('❌ Body Fit Flow returned no products');
+                }
+
+            } catch (error) {
+                log(`❌ Body Fit Error: ${error.message}`);
+            }
+        }
+
+        // Auto-run test on page load
+        window.onload = function() {
+            log('🚀 Page loaded - ready to test Face Tone Flow fix');
+            log('💡 Click "Test Face Tone Flow" to verify the fix works');
+        };
+    </script>
+</body>
+</html>

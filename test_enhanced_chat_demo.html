@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced FashionPulse Chat Demo</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            background: white; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        .header { 
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24); 
+            color: white; 
+            padding: 20px; 
+            text-align: center; 
+        }
+        .chat-demo { 
+            padding: 30px; 
+        }
+        .test-section { 
+            margin: 20px 0; 
+            padding: 20px; 
+            border: 2px solid #e0e0e0; 
+            border-radius: 10px; 
+            background: #f9f9f9;
+        }
+        .query-type { 
+            font-weight: bold; 
+            color: #333; 
+            margin-bottom: 15px; 
+            font-size: 18px;
+        }
+        .example-queries { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+            gap: 10px; 
+        }
+        .query-item { 
+            background: white; 
+            padding: 12px; 
+            border-radius: 8px; 
+            border-left: 4px solid #667eea; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .query-item:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+        .feature-list { 
+            background: linear-gradient(135deg, #74b9ff, #0984e3); 
+            color: white; 
+            padding: 20px; 
+            border-radius: 10px; 
+            margin: 20px 0;
+        }
+        .feature-list h3 { 
+            margin-top: 0; 
+        }
+        .feature-list ul { 
+            list-style: none; 
+            padding: 0; 
+        }
+        .feature-list li { 
+            padding: 8px 0; 
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        .feature-list li:before { 
+            content: "✅ "; 
+            margin-right: 10px; 
+        }
+        .status-info { 
+            background: #2d3436; 
+            color: #ddd; 
+            padding: 15px; 
+            border-radius: 8px; 
+            font-family: monospace; 
+            margin: 20px 0;
+        }
+        .highlight { 
+            background: linear-gradient(135deg, #fdcb6e, #e17055); 
+            color: white; 
+            padding: 15px; 
+            border-radius: 10px; 
+            text-align: center; 
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 Enhanced FashionPulse Chat Agent</h1>
+            <p>Comprehensive E-commerce Support with Database Integration</p>
+        </div>
+        
+        <div class="chat-demo">
+            <div class="highlight">
+                <h2>🎯 Now Handles ALL Types of Queries!</h2>
+                <p>From product search to policies, orders, returns, and general conversation</p>
+            </div>
+
+            <div class="feature-list">
+                <h3>🚀 Enhanced Features</h3>
+                <ul>
+                    <li>Database-driven policy responses (returns, cancellation, shipping)</li>
+                    <li>Comprehensive order tracking and support</li>
+                    <li>Natural conversation handling (greetings, thanks, goodbye)</li>
+                    <li>Smart product search with fallback suggestions</li>
+                    <li>Payment and sizing guidance</li>
+                    <li>Customer support integration</li>
+                    <li>Real-time inventory stats and categories</li>
+                    <li>Contextual help and recommendations</li>
+                </ul>
+            </div>
+
+            <div class="test-section">
+                <div class="query-type">👋 Conversational Queries</div>
+                <div class="example-queries">
+                    <div class="query-item">Hi there!</div>
+                    <div class="query-item">Good morning</div>
+                    <div class="query-item">How are you?</div>
+                    <div class="query-item">Thank you</div>
+                    <div class="query-item">That's great!</div>
+                    <div class="query-item">Goodbye</div>
+                </div>
+            </div>
+
+            <div class="test-section">
+                <div class="query-type">🛍️ Product Search Queries</div>
+                <div class="example-queries">
+                    <div class="query-item">Show me red dresses</div>
+                    <div class="query-item">Find jeans under 2000</div>
+                    <div class="query-item">Blue shirts for men</div>
+                    <div class="query-item">Western wear for women</div>
+                    <div class="query-item">Casual clothes under 1500</div>
+                    <div class="query-item">What categories do you have?</div>
+                </div>
+            </div>
+
+            <div class="test-section">
+                <div class="query-type">📋 Policy & Return Queries</div>
+                <div class="example-queries">
+                    <div class="query-item">What's your return policy?</div>
+                    <div class="query-item">How can I cancel my order?</div>
+                    <div class="query-item">Tell me about refunds</div>
+                    <div class="query-item">How do I return an item?</div>
+                    <div class="query-item">Cancellation policy</div>
+                    <div class="query-item">Exchange process</div>
+                </div>
+            </div>
+
+            <div class="test-section">
+                <div class="query-type">🚚 Shipping & Delivery Queries</div>
+                <div class="example-queries">
+                    <div class="query-item">How long does delivery take?</div>
+                    <div class="query-item">What are shipping charges?</div>
+                    <div class="query-item">Free delivery policy</div>
+                    <div class="query-item">Express delivery options</div>
+                    <div class="query-item">Delivery tracking</div>
+                    <div class="query-item">Shipping policy</div>
+                </div>
+            </div>
+
+            <div class="test-section">
+                <div class="query-type">📦 Order & Tracking Queries</div>
+                <div class="example-queries">
+                    <div class="query-item">Track my order</div>
+                    <div class="query-item">Where is my order #FP12345?</div>
+                    <div class="query-item">Order status</div>
+                    <div class="query-item">My order details</div>
+                    <div class="query-item">When will I get my order?</div>
+                    <div class="query-item">Order tracking help</div>
+                </div>
+            </div>
+
+            <div class="test-section">
+                <div class="query-type">💳 Payment & Support Queries</div>
+                <div class="example-queries">
+                    <div class="query-item">What payment methods do you accept?</div>
+                    <div class="query-item">Do you have COD?</div>
+                    <div class="query-item">Size guide help</div>
+                    <div class="query-item">Customer support contact</div>
+                    <div class="query-item">Payment issues</div>
+                    <div class="query-item">Help me with sizing</div>
+                </div>
+            </div>
+
+            <div class="status-info">
+                <strong>🔧 Technical Implementation:</strong><br>
+                ✅ Database policy fetching with fallback<br>
+                ✅ Smart intent detection and routing<br>
+                ✅ Comprehensive response formatting<br>
+                ✅ Error handling and graceful degradation<br>
+                ✅ Context-aware conversation flow<br>
+                ✅ Real-time product search integration
+            </div>
+
+            <div class="test-section">
+                <div class="query-type">🎯 Key Improvements</div>
+                <div style="background: white; padding: 20px; border-radius: 10px;">
+                    <h4>🔄 Policy Queries (NEW!)</h4>
+                    <p>Now fetches return, cancellation, and shipping policies directly from database with intelligent fallbacks.</p>
+                    
+                    <h4>💬 Natural Conversation (ENHANCED!)</h4>
+                    <p>Handles greetings, thanks, compliments, and general conversation naturally.</p>
+                    
+                    <h4>📦 Order Support (COMPREHENSIVE!)</h4>
+                    <p>Complete order tracking, status updates, and customer support integration.</p>
+                    
+                    <h4>🛍️ Smart Product Search (IMPROVED!)</h4>
+                    <p>Better search with suggestions, categories, and helpful fallbacks when no results found.</p>
+                </div>
+            </div>
+
+            <div class="highlight">
+                <h3>🚀 Ready to Test!</h3>
+                <p>Start the chat agent server and try any of these queries in the chat interface</p>
+                <code style="background: rgba(0,0,0,0.2); padding: 5px 10px; border-radius: 5px;">
+                    python start_chat_agent.py
+                </code>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add click handlers to query items for easy copying
+        document.querySelectorAll('.query-item').forEach(item => {
+            item.addEventListener('click', function() {
+                navigator.clipboard.writeText(this.textContent).then(() => {
+                    this.style.background = '#74b9ff';
+                    this.style.color = 'white';
+                    setTimeout(() => {
+                        this.style.background = 'white';
+                        this.style.color = 'black';
+                    }, 500);
+                });
+            });
+        });
+
+        console.log('🤖 Enhanced FashionPulse Chat Agent Demo Loaded');
+        console.log('💡 Click any query to copy it to clipboard');
+        console.log('🚀 All query types now supported: conversation, products, policies, orders');
+    </script>
+</body>
+</html>

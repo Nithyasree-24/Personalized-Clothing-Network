@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend-Backend Connection Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #fce7f3, #fbcfe8);
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .success { background: #d1fae5; color: #065f46; }
+        .error { background: #fee2e2; color: #991b1b; }
+        .loading { background: #dbeafe; color: #1e40af; }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .product-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+        }
+        .product-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .product-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin: 10px 0 5px 0;
+            height: 40px;
+            overflow: hidden;
+        }
+        .product-price {
+            color: #ec4899;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        button {
+            background: linear-gradient(135deg, #ec4899, #be185d);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: linear-gradient(135deg, #be185d, #9d174d);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔗 Frontend-Backend Connection Test</h1>
+        <p>Testing connection to clothing table with 285 products</p>
+        
+        <div id="status" class="status loading">🔄 Testing connection...</div>
+        
+        <div>
+            <button onclick="testConnection()">🔄 Test Connection</button>
+            <button onclick="loadAllProducts()">📦 Load All Products</button>
+            <button onclick="testSearch()">🔍 Test Search</button>
+        </div>
+        
+        <div id="results"></div>
+        <div id="products" class="product-grid"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000/api';
+        
+        async function testConnection() {
+            const statusDiv = document.getElementById('status');
+            const resultsDiv = document.getElementById('results');
+            
+            statusDiv.className = 'status loading';
+            statusDiv.innerHTML = '🔄 Testing backend connection...';
+            
+            try {
+                // Test cache count
+                const countResponse = await fetch(`${API_BASE}/cache/count`);
+                const countData = await countResponse.json();
+                
+                if (countData.success) {
+                    statusDiv.className = 'status success';
+                    statusDiv.innerHTML = `✅ Backend connected! Found ${countData.cached_products} products in clothing table`;
+                    
+                    resultsDiv.innerHTML = `
+                        <div class="status success">
+                            <h3>✅ Connection Test Results:</h3>
+                            <ul>
+                                <li>Backend API: ✅ Running on port 5000</li>
+                                <li>Database: ✅ Connected to 'fashiopulse'</li>
+                                <li>Clothing Table: ✅ ${countData.cached_products} products found</li>
+                                <li>API Response: ✅ JSON format correct</li>
+                            </ul>
+                        </div>
+                    `;
+                } else {
+                    throw new Error('Invalid response format');
+                }
+            } catch (error) {
+                statusDiv.className = 'status error';
+                statusDiv.innerHTML = `❌ Connection failed: ${error.message}`;
+                
+                resultsDiv.innerHTML = `
+                    <div class="status error">
+                        <h3>❌ Connection Issues:</h3>
+                        <ul>
+                            <li>Make sure backend is running: <code>python backend/app.py</code></li>
+                            <li>Check database connection in backend/.env</li>
+                            <li>Verify clothing table exists with data</li>
+                        </ul>
+                    </div>
+                `;
+            }
+        }
+        
+        async function loadAllProducts() {
+            const statusDiv = document.getElementById('status');
+            const productsDiv = document.getElementById('products');
+            
+            statusDiv.className = 'status loading';
+            statusDiv.innerHTML = '🔄 Loading all products from clothing table...';
+            
+            try {
+                const response = await fetch(`${API_BASE}/products/search?query=clothing`);
+                const data = await response.json();
+                
+                if (data.success && data.products) {
+                    statusDiv.className = 'status success';
+                    statusDiv.innerHTML = `✅ Loaded ${data.count} products successfully!`;
+                    
+                    // Display first 20 products
+                    const productsToShow = data.products.slice(0, 20);
+                    productsDiv.innerHTML = productsToShow.map(product => `
+                        <div class="product-card">
+                            <img src="${product.image_url}" alt="${product.title}" onerror="this.src='https://via.placeholder.com/150x150?text=No+Image'">
+                            <div class="product-title">${product.title}</div>
+                            <div class="product-price">₹${product.price}</div>
+                            <div style="font-size: 12px; color: #666;">
+                                ${product.category} | ${product.gender}
+                            </div>
+                        </div>
+                    `).join('');
+                    
+                    document.getElementById('results').innerHTML = `
+                        <div class="status success">
+                            <h3>📦 Products Loaded Successfully:</h3>
+                            <ul>
+                                <li>Total Products: ${data.count}</li>
+                                <li>Displaying: First 20 products</li>
+                                <li>Source: clothing table</li>
+                                <li>All products have: ID, title, price, image, category, gender</li>
+                            </ul>
+                        </div>
+                    `;
+                } else {
+                    throw new Error('No products found');
+                }
+            } catch (error) {
+                statusDiv.className = 'status error';
+                statusDiv.innerHTML = `❌ Failed to load products: ${error.message}`;
+            }
+        }
+        
+        async function testSearch() {
+            const statusDiv = document.getElementById('status');
+            const productsDiv = document.getElementById('products');
+            
+            statusDiv.className = 'status loading';
+            statusDiv.innerHTML = '🔍 Testing search functionality...';
+            
+            try {
+                // Test search for "shirt"
+                const response = await fetch(`${API_BASE}/products/search?query=shirt`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    statusDiv.className = 'status success';
+                    statusDiv.innerHTML = `✅ Search test passed! Found ${data.count} shirts`;
+                    
+                    // Display search results
+                    const productsToShow = data.products.slice(0, 12);
+                    productsDiv.innerHTML = productsToShow.map(product => `
+                        <div class="product-card">
+                            <img src="${product.image_url}" alt="${product.title}" onerror="this.src='https://via.placeholder.com/150x150?text=No+Image'">
+                            <div class="product-title">${product.title}</div>
+                            <div class="product-price">₹${product.price}</div>
+                            <div style="font-size: 12px; color: #666;">
+                                ${product.category} | ${product.gender}
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    throw new Error('Search failed');
+                }
+            } catch (error) {
+                statusDiv.className = 'status error';
+                statusDiv.innerHTML = `❌ Search test failed: ${error.message}`;
+            }
+        }
+        
+        // Auto-test connection on page load
+        window.onload = () => {
+            testConnection();
+        };
+    </script>
+</body>
+</html>

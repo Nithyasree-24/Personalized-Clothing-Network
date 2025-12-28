@@ -1,0 +1,44 @@
+<svg width="400" height="200" viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ec4899;stop-opacity:0.1" />
+      <stop offset="100%" style="stop-color:#be185d;stop-opacity:0.2" />
+    </linearGradient>
+    <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ec4899" />
+      <stop offset="50%" style="stop-color:#be185d" />
+      <stop offset="100%" style="stop-color:#9d174d" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="200" fill="url(#bgGradient)" rx="20"/>
+  
+  <!-- Fashion icon -->
+  <g transform="translate(30, 40)">
+    <!-- Dress silhouette -->
+    <path d="M20 10 L30 10 L35 30 L40 60 L35 90 L15 90 L10 60 L15 30 Z" 
+          fill="#ec4899" opacity="0.8"/>
+    <!-- Hanger -->
+    <line x1="15" y1="5" x2="35" y2="5" stroke="#be185d" stroke-width="2"/>
+    <circle cx="25" cy="3" r="2" fill="#be185d"/>
+  </g>
+  
+  <!-- Main text -->
+  <text x="80" y="80" font-family="Arial, sans-serif" font-size="36" font-weight="bold" 
+        fill="url(#textGradient)">FashioPulse</text>
+  
+  <!-- Tagline -->
+  <text x="80" y="110" font-family="Arial, sans-serif" font-size="14" 
+        fill="#be185d" opacity="0.8">Feel The Beat Of Fashion</text>
+  
+  <!-- Decorative elements -->
+  <circle cx="350" cy="50" r="3" fill="#ec4899" opacity="0.6"/>
+  <circle cx="360" cy="70" r="2" fill="#be185d" opacity="0.5"/>
+  <circle cx="340" cy="80" r="2.5" fill="#ec4899" opacity="0.7"/>
+  
+  <!-- Heart beat line -->
+  <path d="M80 130 L120 130 L125 120 L130 140 L135 110 L140 150 L145 130 L320 130" 
+        stroke="#ec4899" stroke-width="2" fill="none" opacity="0.6"/>
+</svg>

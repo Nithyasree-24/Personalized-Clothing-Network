@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FashioPulse Logo Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .title {
+            text-align: center;
+            color: #be185d;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .logo-section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+            border-radius: 15px;
+            border: 2px solid #f9a8d4;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #be185d;
+            margin-bottom: 15px;
+        }
+        
+        .logo-display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .logo-large {
+            max-width: 400px;
+            max-height: 200px;
+            width: auto;
+            height: auto;
+        }
+        
+        .logo-small {
+            max-width: 200px;
+            max-height: 100px;
+            width: auto;
+            height: auto;
+        }
+        
+        .status {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        
+        .success {
+            background: #f0fdf4;
+            color: #15803d;
+            border: 2px solid #22c55e;
+        }
+        
+        .error {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 2px solid #ef4444;
+        }
+        
+        .auth-preview {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .auth-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border: 2px solid #f9a8d4;
+        }
+        
+        .auth-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .auth-logo {
+            max-width: 150px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .auth-preview {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">🎨 FashioPulse Logo Display Test</h1>
+        
+        <!-- Logo Test Section -->
+        <div class="logo-section">
+            <div class="section-title">Logo Display Test</div>
+            
+            <div class="logo-display">
+                <img src="/assets/fashiopulse-logo.svg" alt="FashioPulse Logo" class="logo-large" 
+                     onload="showSuccess('large')" onerror="showError('large')">
+            </div>
+            
+            <div id="status-large" class="status" style="display: none;"></div>
+            
+            <div class="logo-display">
+                <img src="/assets/fashiopulse-logo.svg" alt="FashioPulse Logo Small" class="logo-small"
+                     onload="showSuccess('small')" onerror="showError('small')">
+            </div>
+            
+            <div id="status-small" class="status" style="display: none;"></div>
+        </div>
+        
+        <!-- Authentication Pages Preview -->
+        <div class="logo-section">
+            <div class="section-title">Authentication Pages Preview</div>
+            
+            <div class="auth-preview">
+                <!-- Login Page Preview -->
+                <div class="auth-card">
+                    <div class="auth-header">
+                        <img src="/assets/fashiopulse-logo.svg" alt="FashioPulse" class="auth-logo">
+                        <h3 style="color: #be185d; margin: 10px 0;">Welcome Back</h3>
+                        <p style="color: #6b7280; margin: 0;">Sign in to continue shopping</p>
+                    </div>
+                    
+                    <div style="background: #f9fafb; padding: 15px; border-radius: 8px; text-align: center;">
+                        <p style="margin: 0; color: #374151; font-size: 14px;">Login Page Logo Display</p>
+                    </div>
+                </div>
+                
+                <!-- Signup Page Preview -->
+                <div class="auth-card">
+                    <div class="auth-header">
+                        <img src="/assets/fashiopulse-logo.svg" alt="FashioPulse" class="auth-logo">
+                        <h3 style="color: #be185d; margin: 10px 0;">Create Account</h3>
+                        <p style="color: #6b7280; margin: 0;">Join us to start shopping</p>
+                    </div>
+                    
+                    <div style="background: #f9fafb; padding: 15px; border-radius: 8px; text-align: center;">
+                        <p style="margin: 0; color: #374151; font-size: 14px;">Signup Page Logo Display</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Instructions -->
+        <div class="logo-section">
+            <div class="section-title">Testing Instructions</div>
+            <div style="color: #374151; line-height: 1.6;">
+                <p><strong>✅ If logos appear above:</strong></p>
+                <ul>
+                    <li>The logo file is working correctly</li>
+                    <li>Login and signup pages should now display the logo</li>
+                    <li>Visit <code>http://localhost:3000/login</code> and <code>http://localhost:3000/signup</code> to verify</li>
+                </ul>
+                
+                <p><strong>❌ If logos don't appear:</strong></p>
+                <ul>
+                    <li>Check if the Next.js server is running</li>
+                    <li>Verify the file exists at <code>public/assets/fashiopulse-logo.svg</code></li>
+                    <li>Check browser console for any errors</li>
+                </ul>
+                
+                <p><strong>🔧 Logo Details:</strong></p>
+                <ul>
+                    <li><strong>File:</strong> <code>/assets/fashiopulse-logo.svg</code></li>
+                    <li><strong>Format:</strong> SVG (scalable vector graphics)</li>
+                    <li><strong>Colors:</strong> Pink gradient (#ec4899 to #9d174d)</li>
+                    <li><strong>Features:</strong> Fashion dress icon, brand name, tagline</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showSuccess(size) {
+            const statusDiv = document.getElementById(`status-${size}`);
+            statusDiv.className = 'status success';
+            statusDiv.style.display = 'block';
+            statusDiv.innerHTML = `✅ ${size.charAt(0).toUpperCase() + size.slice(1)} logo loaded successfully!`;
+        }
+        
+        function showError(size) {
+            const statusDiv = document.getElementById(`status-${size}`);
+            statusDiv.className = 'status error';
+            statusDiv.style.display = 'block';
+            statusDiv.innerHTML = `❌ ${size.charAt(0).toUpperCase() + size.slice(1)} logo failed to load. Check file path and server.`;
+        }
+        
+        // Test if we're running on localhost
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            console.log('✅ Running on localhost - logo should load from Next.js server');
+        } else {
+            console.log('⚠️ Not running on localhost - logo may not load without server');
+        }
+    </script>
+</body>
+</html>

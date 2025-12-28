@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Navigation Fix Test</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            background: white; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        .header { 
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24); 
+            color: white; 
+            padding: 20px; 
+            text-align: center; 
+        }
+        .content { 
+            padding: 30px; 
+        }
+        .fix-section { 
+            margin: 25px 0; 
+            padding: 20px; 
+            border: 2px solid #e0e0e0; 
+            border-radius: 10px; 
+            background: #f9f9f9;
+        }
+        .fix-title { 
+            font-weight: bold; 
+            color: #333; 
+            margin-bottom: 15px; 
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .code-block { 
+            background: #2d3436; 
+            color: #ddd; 
+            padding: 15px; 
+            border-radius: 8px; 
+            font-family: monospace; 
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+        .success { 
+            background: linear-gradient(135deg, #00b894, #00a085); 
+            color: white; 
+            padding: 20px; 
+            border-radius: 10px; 
+            margin: 20px 0;
+        }
+        .test-steps { 
+            background: linear-gradient(135deg, #74b9ff, #0984e3); 
+            color: white; 
+            padding: 20px; 
+            border-radius: 10px; 
+            margin: 20px 0;
+        }
+        .step { 
+            display: flex; 
+            align-items: center; 
+            margin: 10px 0; 
+            padding: 10px; 
+            background: rgba(255,255,255,0.1); 
+            border-radius: 8px;
+        }
+        .step-number { 
+            background: white; 
+            color: #0984e3; 
+            width: 30px; 
+            height: 30px; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-weight: bold; 
+            margin-right: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔧 Chat Navigation Fixes Applied!</h1>
+            <p>Fixed chat restoration and backend data fetching</p>
+        </div>
+        
+        <div class="content">
+            <div class="success">
+                <h2>✅ Issues Fixed</h2>
+                <ul style="list-style: none; padding: 0;">
+                    <li>🔄 Chat now reopens automatically when returning from product page</li>
+                    <li>🎯 Added secondary restoration check with interval polling</li>
+                    <li>📊 Cart/wishlist now fetch real color and gender from backend API</li>
+                    <li>⚡ Async data fetching with proper error handling</li>
+                    <li>🛡️ Fallback data when API calls fail</li>
+                </ul>
+            </div>
+
+            <div class="fix-section">
+                <div class="fix-title">
+                    🔄 Chat Restoration Enhancement
+                </div>
+                <p>Added multiple layers of chat restoration to ensure it works reliably:</p>
+                <div class="code-block">
+// Primary restoration on component mount
+useEffect(() => {
+  const returnState = sessionStorage.getItem('fashionpulse_chat_return');
+  if (returnState) {
+    const { fromChat, isOpen, messages } = JSON.parse(returnState);
+    if (fromChat && isOpen) {
+      setIsOpen(true);
+      setMessages(messages);
+    }
+  }
+}, []);
+
+// Secondary restoration with interval polling
+useEffect(() => {
+  const checkChatRestore = () => {
+    const returnState = sessionStorage.getItem('fashionpulse_chat_return');
+    if (returnState && !isOpen) {
+      // Restore chat if needed
+    }
+  };
+  
+  const interval = setInterval(checkChatRestore, 500);
+  return () => clearInterval(interval);
+}, [isOpen]);
+                </div>
+            </div>
+
+            <div class="fix-section">
+                <div class="fix-title">
+                    📊 Backend Data Integration
+                </div>
+                <p>Now fetches real product data for cart and wishlist items:</p>
+                <div class="code-block">
+const handleCartRequest = async () => {
+  const cartProducts = [];
+  
+  for (const item of cart) {
+    try {
+      const response = await fetch(`http://localhost:5000/api/products/${item.id}`);
+      if (response.ok) {
+        const productData = await response.json();
+        cartProducts.push({
+          product_id: String(item.id),
+          product_name: item.title,
+          price: item.price,
+          color: productData.color || 'N/A',        // Real data!
+          gender: productData.gender || 'Unisex',   // Real data!
+          product_category: productData.product_category || 'Fashion'
+        });
+      }
+    } catch (error) {
+      // Fallback handling
+    }
+  }
+};
+                </div>
+            </div>
+
+            <div class="test-steps">
+                <h3>🧪 How to Test the Fixes</h3>
+                
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div>Start both servers: <code>npm run dev</code> and <code>python start_backend.py</code></div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div>Add some products to cart and wishlist from product pages</div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div>Open chat and search for products: "show jeans"</div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div>Click on a product → chat should close and navigate to product page</div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div>Click "Back" button → should return to home page</div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">6</div>
+                    <div>Chat should automatically reopen with previous conversation! 🎉</div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">7</div>
+                    <div>Test cart/wishlist: "show my cart" → should display real color/gender data</div>
+                </div>
+            </div>
+
+            <div class="fix-section">
+                <div class="fix-title">
+                    🔍 What Changed
+                </div>
+                <ul style="line-height: 1.8;">
+                    <li><strong>Chat Restoration:</strong> Added interval-based polling to catch missed restoration events</li>
+                    <li><strong>Session Storage:</strong> Enhanced with <code>fromChat</code> flag for better navigation tracking</li>
+                    <li><strong>API Integration:</strong> Synchronous fetching of product details from backend</li>
+                    <li><strong>Error Handling:</strong> Graceful fallbacks when API calls fail</li>
+                    <li><strong>Async Functions:</strong> Proper async/await for cart and wishlist handlers</li>
+                </ul>
+            </div>
+
+            <div class="success">
+                <h3>🚀 Expected Results</h3>
+                <p>After these fixes:</p>
+                <ul style="list-style: none; padding: 0; margin-top: 15px;">
+                    <li>✅ Chat reopens automatically when returning from product pages</li>
+                    <li>✅ Cart shows real product colors (White, Blue, etc.) instead of "Various"</li>
+                    <li>✅ Cart shows real gender data (Men, Women, etc.) instead of "Unisex"</li>
+                    <li>✅ Wishlist displays accurate product information</li>
+                    <li>✅ Navigation flow works seamlessly: Chat → Product → Back → Chat</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        console.log('🔧 Chat Navigation Fix Test Page Loaded');
+        console.log('✅ Chat restoration enhanced with interval polling');
+        console.log('📊 Backend data integration for cart/wishlist');
+        console.log('🔄 Navigation flow: Chat → Product → Back → Chat restored');
+    </script>
+</body>
+</html>

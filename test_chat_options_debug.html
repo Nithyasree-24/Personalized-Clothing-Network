@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Options Debug - FashionPulse</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen p-8">
+    <div class="max-w-2xl mx-auto">
+        <h1 class="text-3xl font-bold text-center text-pink-600 mb-8">
+            🔍 Chat Options Debug Test
+        </h1>
+        
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+            <h2 class="text-xl font-bold mb-4">Debug Information</h2>
+            <div id="debugInfo" class="space-y-2 text-sm font-mono bg-gray-100 p-4 rounded">
+                Loading...
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+            <h2 class="text-xl font-bold mb-4">Test Chat Response</h2>
+            <button onclick="testChatResponse()" class="bg-pink-500 text-white px-4 py-2 rounded hover:bg-pink-600 mb-4">
+                Test Initial Chat Message
+            </button>
+            <div id="chatResponse" class="bg-gray-50 p-4 rounded min-h-[100px]">
+                Click the button to test chat response
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-xl font-bold mb-4">Clear Chat Storage</h2>
+            <button onclick="clearChatStorage()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 mb-4">
+                Clear All Chat Data
+            </button>
+            <div id="clearResult" class="text-sm text-gray-600">
+                This will clear all saved chat history and reset to initial state
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Debug localStorage and sessionStorage
+        function updateDebugInfo() {
+            const debugDiv = document.getElementById('debugInfo');
+            
+            let info = '';
+            info += 'LocalStorage Keys:\n';
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && key.includes('fashionpulse')) {
+                    info += `  ${key}: ${localStorage.getItem(key)?.substring(0, 100)}...\n`;
+                }
+            }
+            
+            info += '\nSessionStorage Keys:\n';
+            for (let i = 0; i < sessionStorage.length; i++) {
+                const key = sessionStorage.key(i);
+                if (key && key.includes('fashionpulse')) {
+                    info += `  ${key}: ${sessionStorage.getItem(key)?.substring(0, 100)}...\n`;
+                }
+            }
+            
+            info += '\nUser ID: ' + (localStorage.getItem('user_id') || 'guest');
+            
+            debugDiv.textContent = info || 'No FashionPulse data found in storage';
+        }
+
+        async function testChatResponse() {
+            const responseDiv = document.getElementById('chatResponse');
+            responseDiv.innerHTML = '<div class="text-blue-600">🔄 Testing chat response...</div>';
+            
+            try {
+                const response = await fetch('http://localhost:5001/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: 'hi' })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    let html = `
+                        <div class="text-green-600 font-bold">✅ Chat Server Response</div>
+                        <div class="mt-2">
+                            <strong>Response:</strong> ${data.response}
+                        </div>
+                        <div class="mt-2">
+                            <strong>Type:</strong> ${data.type || 'undefined'}
+                        </div>
+                        <div class="mt-2">
+                            <strong>Products:</strong> ${data.products ? data.products.length : 0}
+                        </div>
+                        <div class="mt-2">
+                            <strong>Status:</strong> ${data.status}
+                        </div>
+                    `;
+                    
+                    responseDiv.innerHTML = html;
+                } else {
+                    responseDiv.innerHTML = `<div class="text-red-600">❌ Error: ${response.status} ${response.statusText}</div>`;
+                }
+            } catch (error) {
+                responseDiv.innerHTML = `<div class="text-red-600">❌ Connection Error: ${error.message}</div>`;
+            }
+        }
+
+        function clearChatStorage() {
+            const resultDiv = document.getElementById('clearResult');
+            
+            // Clear all FashionPulse related storage
+            const keysToRemove = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && key.includes('fashionpulse')) {
+                    keysToRemove.push(key);
+                }
+            }
+            
+            keysToRemove.forEach(key => localStorage.removeItem(key));
+            
+            // Clear session storage
+            const sessionKeysToRemove = [];
+            for (let i = 0; i < sessionStorage.length; i++) {
+                const key = sessionStorage.key(i);
+                if (key && key.includes('fashionpulse')) {
+                    sessionKeysToRemove.push(key);
+                }
+            }
+            
+            sessionKeysToRemove.forEach(key => sessionStorage.removeItem(key));
+            
+            resultDiv.innerHTML = `
+                <div class="text-green-600">✅ Cleared ${keysToRemove.length} localStorage keys and ${sessionKeysToRemove.length} sessionStorage keys</div>
+                <div class="text-sm text-gray-500 mt-1">Refresh the main application to see the reset chat with Face Tone and Body Fit options</div>
+            `;
+            
+            updateDebugInfo();
+        }
+
+        // Update debug info on page load
+        window.onload = function() {
+            updateDebugInfo();
+            
+            // Auto-refresh debug info every 2 seconds
+            setInterval(updateDebugInfo, 2000);
+        };
+    </script>
+</body>
+</html>

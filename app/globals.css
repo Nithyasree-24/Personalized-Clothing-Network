@@ -1,0 +1,119 @@
+@import "tailwindcss";
+
+:root {
+  --background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 25%, #f48fb1 50%, #f06292 75%, #ec407a 100%);
+  --foreground: #4a0e29;
+  --pink-gradient: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 25%, #f48fb1 50%, #f06292 75%, #ec407a 100%);
+  --pink-light: #fce4ec;
+  --pink-medium: #f48fb1;
+  --pink-dark: #ec407a;
+  --pink-darker: #c2185b;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: linear-gradient(135deg, #4a0e29 0%, #6a1b3d 25%, #8e2454 50%, #b03060 75%, #c2185b 100%);
+    --foreground: #fce4ec;
+  }
+}
+
+body {
+  background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 25%, #f48fb1 50%, #f06292 75%, #ec407a 100%);
+  background-attachment: fixed;
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+html {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Section divider with flower decorations */
+.section-divider-left,
+.section-divider-right {
+  position: relative;
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(to right, transparent, currentColor);
+}
+
+.section-divider-right {
+  background: linear-gradient(to left, transparent, currentColor);
+}
+
+.section-divider-left::before,
+.section-divider-right::after {
+  content: "✿";
+  position: absolute;
+  font-size: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  animation: flower-pulse 2s ease-in-out infinite;
+}
+
+.section-divider-left::before {
+  left: 0;
+}
+
+.section-divider-right::after {
+  right: 0;
+}
+
+@keyframes flower-pulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: translateY(-50%) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.2);
+  }
+}
+
+/* Shimmer animation for chat button */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 3s infinite;
+}
+
+/* Cart notification animations */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slideInRight {
+  animation: slideInRight 0.3s ease-out;
+}
+
+/* Line clamp utility */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

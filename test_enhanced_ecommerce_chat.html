@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced E-commerce Chat Test - FashionPulse</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #fdf2f8 0%, #f3e8ff 100%);
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(45deg, #ec4899, #f472b6);
+            color: white;
+            border-radius: 10px;
+        }
+        .test-section {
+            margin: 25px 0;
+            padding: 20px;
+            border: 2px solid #ec4899;
+            border-radius: 10px;
+            background: #fdf2f8;
+        }
+        .query-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .query-button {
+            background: linear-gradient(45deg, #ec4899, #f472b6);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+        .query-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(236, 72, 153, 0.3);
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-online { background: #10b981; }
+        .status-offline { background: #ef4444; }
+        .status-warning { background: #f59e0b; }
+        #results {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 10px;
+            min-height: 200px;
+            border: 1px solid #e2e8f0;
+        }
+        .response-card {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border-left: 4px solid #ec4899;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .query-text {
+            font-weight: bold;
+            color: #ec4899;
+            margin-bottom: 10px;
+        }
+        .response-text {
+            line-height: 1.6;
+            color: #374151;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .product-card {
+            border: 1px solid #ec4899;
+            border-radius: 8px;
+            padding: 15px;
+            background: #fdf2f8;
+            text-align: center;
+        }
+        .product-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin: 0 auto 10px;
+            display: block;
+        }
+        .llm-status {
+            background: #f0f9ff;
+            border: 1px solid #0ea5e9;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #ec4899;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧠 Enhanced E-commerce Chat Test</h1>
+            <p>Testing Falcon 7B LLM Integration with FashionPulse</p>
+            <div id="systemStatus">
+                <span class="status-indicator status-warning"></span>
+                Checking system status...
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>🛍️ Product Search Queries (Database + LLM Enhanced)</h3>
+            <p>These queries search the database and enhance responses with AI recommendations</p>
+            <div class="query-grid">
+                <button class="query-button" onclick="testQuery('show me red dresses under 2000')">
+                    🔍 Red dresses under ₹2000
+                </button>
+                <button class="query-button" onclick="testQuery('find jeans for men')">
+                    👖 Jeans for men
+                </button>
+                <button class="query-button" onclick="testQuery('looking for ethnic wear for women')">
+                    🥻 Ethnic wear for women
+                </button>
+                <button class="query-button" onclick="testQuery('blue shirts under 1500')">
+                    👔 Blue shirts under ₹1500
+                </button>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>💬 E-commerce Support Queries (LLM Powered)</h3>
+            <p>These queries are handled by the AI for comprehensive customer support</p>
+            <div class="query-grid">
+                <button class="query-button" onclick="testQuery('what is your return policy?')">
+                    🔄 Return policy
+                </button>
+                <button class="query-button" onclick="testQuery('how long does shipping take?')">
+                    📦 Shipping information
+                </button>
+                <button class="query-button" onclick="testQuery('what payment methods do you accept?')">
+                    💳 Payment methods
+                </button>
+                <button class="query-button" onclick="testQuery('can I exchange this for a different size?')">
+                    📏 Size exchange
+                </button>
+                <button class="query-button" onclick="testQuery('track my order FP12345')">
+                    🚚 Order tracking
+                </button>
+                <button class="query-button" onclick="testQuery('I need help with sizing')">
+                    📐 Sizing help
+                </button>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>🔀 Complex Mixed Queries (Advanced AI)</h3>
+            <p>These test the AI's ability to handle complex, multi-part questions</p>
+            <div class="query-grid">
+                <button class="query-button" onclick="testQuery('I want to buy a red dress but need to know about returns')">
+                    🛍️➕🔄 Product + Policy
+                </button>
+                <button class="query-button" onclick="testQuery('show me jeans and tell me about shipping costs')">
+                    👖➕📦 Search + Shipping
+                </button>
+                <button class="query-button" onclick="testQuery('what sizes do you have for women tops and exchange policy')">
+                    📏➕🔄 Sizing + Exchange
+                </button>
+            </div>
+        </div>
+
+        <div id="llmStatusSection" class="llm-status">
+            <h4>🧠 LLM Integration Status</h4>
+            <div id="llmStatus">Loading...</div>
+        </div>
+
+        <div id="results">
+            <h3>📋 Test Results</h3>
+            <p>Click any button above to test the enhanced chat capabilities...</p>
+        </div>
+    </div>
+
+    <script>
+        let testCount = 0;
+
+        async function checkSystemStatus() {
+            try {
+                // Check health
+                const healthResponse = await fetch('http://localhost:5001/api/chat/health');
+                const healthData = await healthResponse.json();
+                
+                // Check LLM status
+                const llmResponse = await fetch('http://localhost:5001/api/chat/llm-status');
+                const llmData = await llmResponse.json();
+                
+                // Update system status
+                const statusElement = document.getElementById('systemStatus');
+                if (healthData.status === 'healthy') {
+                    statusElement.innerHTML = `
+                        <span class="status-indicator status-online"></span>
+                        System Online - Database: ${healthData.database}
+                    `;
+                } else {
+                    statusElement.innerHTML = `
+                        <span class="status-indicator status-offline"></span>
+                        System Issues Detected
+                    `;
+                }
+                
+                // Update LLM status
+                const llmStatusElement = document.getElementById('llmStatus');
+                const llmInfo = llmData.llm_info;
+                
+                llmStatusElement.innerHTML = `
+                    <div><strong>Model Loaded:</strong> ${llmInfo.model_loaded ? '✅ Yes' : '❌ No'}</div>
+                    <div><strong>Device:</strong> ${llmInfo.device}</div>
+                    <div><strong>Fallback Mode:</strong> ${llmInfo.fallback_mode ? '⚠️ Active' : '✅ Inactive'}</div>
+                    <div><strong>Model:</strong> ${llmInfo.model_name}</div>
+                    ${llmInfo.fallback_mode ? 
+                        '<div style="color: #f59e0b; margin-top: 10px;">💡 Using enhanced rule-based responses (LLM features still available)</div>' : 
+                        '<div style="color: #10b981; margin-top: 10px;">🚀 Full AI capabilities active</div>'
+                    }
+                `;
+                
+            } catch (error) {
+                document.getElementById('systemStatus').innerHTML = `
+                    <span class="status-indicator status-offline"></span>
+                    Connection Failed - Start chat server
+                `;
+                document.getElementById('llmStatus').innerHTML = `
+                    <div style="color: #ef4444;">❌ Cannot connect to chat server</div>
+                    <div>Please run: <code>python chat_agent/api_server.py</code></div>
+                `;
+            }
+        }
+
+        async function testQuery(query) {
+            testCount++;
+            const resultsDiv = document.getElementById('results');
+            
+            // Add loading indicator
+            const loadingCard = document.createElement('div');
+            loadingCard.className = 'response-card';
+            loadingCard.id = `test-${testCount}`;
+            loadingCard.innerHTML = `
+                <div class="query-text">🔍 Testing: "${query}"</div>
+                <div class="response-text">
+                    <span class="loading"></span> Processing with enhanced AI chat system...
+                </div>
+            `;
+            resultsDiv.appendChild(loadingCard);
+            
+            try {
+                const startTime = Date.now();
+                
+                const response = await fetch('http://localhost:5001/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: query })
+                });
+                
+                const responseTime = Date.now() - startTime;
+                const data = await response.json();
+                
+                if (response.ok) {
+                    let resultHtml = `
+                        <div class="query-text">✅ Query: "${query}" (${responseTime}ms)</div>
+                        <div class="response-text">${formatResponse(data.response)}</div>
+                    `;
+                    
+                    // Add products if available
+                    if (data.products && data.products.length > 0) {
+                        resultHtml += `
+                            <div style="margin-top: 15px;">
+                                <strong>🛍️ Products Found (${data.products.length}):</strong>
+                                <div class="product-grid">
+                        `;
+                        
+                        data.products.slice(0, 4).forEach(product => {
+                            resultHtml += `
+                                <div class="product-card">
+                                    <img src="${product.product_image}" 
+                                         alt="${product.product_name}" 
+                                         class="product-image"
+                                         onerror="this.src='https://via.placeholder.com/80x80/ec4899/ffffff?text=No+Image'">
+                                    <div style="font-size: 12px; font-weight: bold;">${product.product_name}</div>
+                                    <div style="color: #ec4899; font-weight: bold;">₹${product.price.toLocaleString()}</div>
+                                    <div style="font-size: 11px; color: #666;">${product.color} | ${product.gender}</div>
+                                </div>
+                            `;
+                        });
+                        
+                        resultHtml += '</div></div>';
+                    }
+                    
+                    loadingCard.innerHTML = resultHtml;
+                } else {
+                    loadingCard.innerHTML = `
+                        <div class="query-text">❌ Query: "${query}"</div>
+                        <div class="response-text" style="color: #ef4444;">
+                            Error: ${data.error || 'Unknown error'}
+                        </div>
+                    `;
+                }
+                
+            } catch (error) {
+                loadingCard.innerHTML = `
+                    <div class="query-text">❌ Query: "${query}"</div>
+                    <div class="response-text" style="color: #ef4444;">
+                        Connection Error: ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        function formatResponse(text) {
+            // Convert markdown-style formatting to HTML
+            return text
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\n/g, '<br/>')
+                .replace(/• /g, '• ')
+                .replace(/(\d+)️⃣/g, '<span style="color: #ec4899; font-weight: bold;">$1️⃣</span>')
+                .replace(/(💰|🎨|👤|📦|🏷️|🔍|📦|🔄|💳|📏|🚚)/g, '<span style="margin-right: 5px;">$1</span>');
+        }
+
+        // Initialize on page load
+        window.onload = function() {
+            checkSystemStatus();
+            
+            // Auto-refresh status every 30 seconds
+            setInterval(checkSystemStatus, 30000);
+        };
+    </script>
+</body>
+</html>

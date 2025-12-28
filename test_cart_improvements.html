@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart Improvements Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+        }
+        .test-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .feature-box {
+            background: linear-gradient(135deg, #ec4899, #f472b6);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        .cart-demo {
+            background: #f8f9fa;
+            border: 2px solid #ec4899;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        .cart-count {
+            background: #ec4899;
+            color: black;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin: 0 10px;
+        }
+        .notification-demo {
+            background: white;
+            border: 2px solid #10b981;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .menu-item {
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            padding: 10px 15px;
+            margin: 5px 0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .removed {
+            background: #fee2e2;
+            border-color: #fecaca;
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+        .updated {
+            background: #dcfce7;
+            border-color: #bbf7d0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1 style="text-align: center; color: #ec4899;">🛒 Cart & Menu Improvements - Complete!</h1>
+        
+        <div class="feature-box">
+            <h2>✅ Implemented Features</h2>
+            <ul>
+                <li>✅ Cart count with black number on pink background</li>
+                <li>✅ "Added to Cart" notification with product name</li>
+                <li>✅ Removed Style Finder, Avatar Builder, Kids from menu</li>
+                <li>✅ Renamed menu from "Menu" to "Categories"</li>
+                <li>✅ Replaced "Style Finder" with "Combos" in header</li>
+            </ul>
+        </div>
+
+        <h2>🎨 Cart Count Styling</h2>
+        <div class="cart-demo">
+            <h3>Before vs After:</h3>
+            <div style="margin: 15px 0;">
+                <strong>Before:</strong> 🛒 Cart <span style="background: #8B6F47; color: white; border-radius: 50%; padding: 2px 8px; font-size: 12px;">3</span>
+            </div>
+            <div style="margin: 15px 0;">
+                <strong>After:</strong> 🛒 Cart <span class="cart-count">3</span>
+            </div>
+        </div>
+
+        <h2>🔔 Cart Notification</h2>
+        <div class="notification-demo">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <div style="width: 40px; height: 40px; background: #dcfce7; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <span style="color: #16a34a; font-size: 20px;">✓</span>
+                </div>
+                <div style="flex: 1;">
+                    <h4 style="margin: 0; font-size: 14px; color: #111827;">Added to Cart!</h4>
+                    <p style="margin: 5px 0 0 0; font-size: 12px; color: #6b7280;">Classic Navy Blue Plain T-Shirt</p>
+                </div>
+                <button style="background: none; border: none; color: #9ca3af; font-size: 16px;">✕</button>
+            </div>
+            <div style="margin-top: 15px; display: flex; gap: 10px;">
+                <button style="flex: 1; background: #f3f4f6; color: #374151; border: none; padding: 8px; border-radius: 6px; font-size: 12px;">Continue Shopping</button>
+                <button style="flex: 1; background: #ec4899; color: white; border: none; padding: 8px; border-radius: 6px; font-size: 12px;">View Cart</button>
+            </div>
+        </div>
+
+        <h2>📱 Menu Updates</h2>
+        <div class="cart-demo">
+            <h3>Sidebar Changes:</h3>
+            
+            <h4>Title Updated:</h4>
+            <div class="menu-item updated">
+                <span>📂</span>
+                <span><strong>Categories</strong> (was "Menu")</span>
+            </div>
+
+            <h4>Removed Items:</h4>
+            <div class="menu-item removed">
+                <span>👤</span>
+                <span>Avatar Builder</span>
+            </div>
+            <div class="menu-item removed">
+                <span>✨</span>
+                <span>Style Finder</span>
+            </div>
+            <div class="menu-item removed">
+                <span>👧</span>
+                <span>Kids</span>
+            </div>
+
+            <h4>Remaining Categories:</h4>
+            <div class="menu-item">
+                <span>👩</span>
+                <span>Women</span>
+            </div>
+            <div class="menu-item">
+                <span>👨</span>
+                <span>Men</span>
+            </div>
+        </div>
+
+        <h2>🎯 Header Updates</h2>
+        <div class="cart-demo">
+            <h3>Button Changes:</h3>
+            <div style="margin: 15px 0;">
+                <strong>Before:</strong> 
+                <button style="background: linear-gradient(45deg, #ec4899, #be185d); color: white; border: none; padding: 8px 16px; border-radius: 8px; margin: 0 10px;">
+                    ✨ Style Finder
+                </button>
+            </div>
+            <div style="margin: 15px 0;">
+                <strong>After:</strong> 
+                <button style="background: linear-gradient(45deg, #ec4899, #be185d); color: white; border: none; padding: 8px 16px; border-radius: 8px; margin: 0 10px;">
+                    🎯 Combos
+                </button>
+            </div>
+        </div>
+
+        <div class="success">
+            <h3>🎉 All Improvements Complete!</h3>
+            <p><strong>What to test:</strong></p>
+            <ol>
+                <li>Visit <code>http://localhost:3000</code></li>
+                <li>Add any product to cart - you should see the notification</li>
+                <li>Check cart count has black number on pink background</li>
+                <li>Open sidebar - should show "Categories" with only Women/Men</li>
+                <li>Header should show "Combos" instead of "Style Finder"</li>
+            </ol>
+        </div>
+
+        <div class="feature-box">
+            <h3>🚀 Technical Implementation</h3>
+            <ul>
+                <li><strong>CartNotification.tsx:</strong> New notification component</li>
+                <li><strong>CartContext.tsx:</strong> Added notification state management</li>
+                <li><strong>Header.tsx:</strong> Updated cart count styling and button text</li>
+                <li><strong>Sidebar.tsx:</strong> Removed unwanted items, renamed to Categories</li>
+                <li><strong>globals.css:</strong> Added slideInRight animation</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

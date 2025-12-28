@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify All Categories</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #fce7f3, #fbcfe8);
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .category-result {
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .success { background: #d1fae5; border-color: #10b981; }
+        .error { background: #fee2e2; border-color: #ef4444; }
+        .warning { background: #fef3c7; border-color: #f59e0b; }
+        button {
+            background: linear-gradient(135deg, #ec4899, #be185d);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 8px;
+            font-weight: bold;
+        }
+        .product-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .product-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 8px;
+            text-align: center;
+            background: white;
+            font-size: 12px;
+        }
+        .product-card img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #ec4899, #be185d);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Verify All Categories</h1>
+        <p>Complete verification of all product categories in the database</p>
+        
+        <button onclick="verifyAllCategories()">🧪 Verify All Categories</button>
+        <button onclick="showProductPreviews()">👀 Show Product Previews</button>
+        <button onclick="clearResults()">🗑️ Clear</button>
+        
+        <div id="stats" class="stats" style="display: none;"></div>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000/api';
+        
+        const allCategories = [
+            // Gender categories
+            { name: 'All Women', type: 'gender', expected: 185 },
+            { name: 'All Men', type: 'gender', expected: 100 },
+            
+            // Women's categories
+            { name: 'Western Wear', type: 'category', expected: 24 },
+            { name: 'Dresses', type: 'category', expected: 34 },
+            { name: 'Ethnic Wear', type: 'category', expected: 50 },
+            { name: 'Tops and Co-ord Sets', type: 'category', expected: 30 },
+            { name: "Women's Bottomwear", type: 'category', expected: 46 },
+            
+            // Men's categories
+            { name: 'shirts', type: 'category', expected: 25 },
+            { name: 'T-shirts', type: 'category', expected: 34 },
+            { name: 'Bottom Wear', type: 'category', expected: 21 },
+            { name: 'Hoodies', type: 'category', expected: 20 }
+        ];
+        
+        async function testCategory(category) {
+            try {
+                let url;
+                if (category.type === 'gender') {
+                    const gender = category.name.replace('All ', '').toLowerCase();
+                    url = `${API_BASE}/products/category/${encodeURIComponent(gender)}?limit=200`;
+                } else {
+                    url = `${API_BASE}/products/category/${encodeURIComponent(category.name)}?limit=200`;
+                }
+                
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                return {
+                    ...category,
+                    success: data.success,
+                    actual: data.count || 0,
+                    products: data.products || [],
+                    url: url,
+                    status: data.success && data.count > 0 ? 'success' : 'error'
+                };
+            } catch (error) {
+                return {
+                    ...category,
+                    success: false,
+                    actual: 0,
+                    products: [],
+                    error: error.message,
+                    status: 'error'
+                };
+            }
+        }
+        
+        async function verifyAllCategories() {
+            const resultsDiv = document.getElementById('results');
+            const statsDiv = document.getElementById('stats');
+            
+            resultsDiv.innerHTML = '<div style="text-align: center; padding: 20px;">🔄 Testing all categories...</div>';
+            
+            const results = await Promise.all(allCategories.map(testCategory));
+            
+            // Calculate stats
+            const totalExpected = results.reduce((sum, r) => sum + r.expected, 0);
+            const totalActual = results.reduce((sum, r) => sum + r.actual, 0);
+            const successCount = results.filter(r => r.status === 'success').length;
+            const failureCount = results.length - successCount;
+            
+            // Show stats
+            statsDiv.innerHTML = `
+                <div class="stat-card">
+                    <span class="stat-number">${results.length}</span>
+                    <span>Total Categories</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">${successCount}</span>
+                    <span>Working Categories</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">${failureCount}</span>
+                    <span>Failed Categories</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">${totalActual}</span>
+                    <span>Total Products</span>
+                </div>
+            `;
+            statsDiv.style.display = 'grid';
+            
+            // Show detailed results
+            let html = '<h3>📋 Category Verification Results:</h3>';
+            
+            for (const result of results) {
+                const statusClass = result.status;
+                const statusIcon = result.status === 'success' ? '✅' : '❌';
+                const matchIcon = result.actual === result.expected ? '✅' : '⚠️';
+                
+                html += `
+                    <div class="category-result ${statusClass}">
+                        <div>
+                            <strong>${statusIcon} ${result.name}</strong><br>
+                            <small>Expected: ${result.expected} | Actual: ${result.actual} ${matchIcon}</small>
+                            ${result.error ? `<br><small style="color: red;">Error: ${result.error}</small>` : ''}
+                        </div>
+                        <div style="text-align: right;">
+                            <strong>${result.actual}</strong> products<br>
+                            <small>${result.status.toUpperCase()}</small>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Add summary
+            const overallStatus = failureCount === 0 ? 'success' : 'warning';
+            html += `
+                <div class="category-result ${overallStatus}">
+                    <div>
+                        <strong>📊 Overall Status</strong><br>
+                        <small>${successCount}/${results.length} categories working</small>
+                    </div>
+                    <div style="text-align: right;">
+                        <strong>${totalActual}</strong> total products<br>
+                        <small>${overallStatus === 'success' ? 'ALL WORKING' : 'SOME ISSUES'}</small>
+                    </div>
+                </div>
+            `;
+            
+            resultsDiv.innerHTML = html;
+        }
+        
+        async function showProductPreviews() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<div style="text-align: center; padding: 20px;">🔄 Loading product previews...</div>';
+            
+            // Test a few key categories with product previews
+            const previewCategories = ['Western Wear', 'Dresses', 'shirts', 'T-shirts'];
+            
+            let html = '<h3>👀 Product Previews:</h3>';
+            
+            for (const categoryName of previewCategories) {
+                try {
+                    const url = `${API_BASE}/products/category/${encodeURIComponent(categoryName)}?limit=6`;
+                    const response = await fetch(url);
+                    const data = await response.json();
+                    
+                    if (data.success && data.products && data.products.length > 0) {
+                        html += `
+                            <div class="category-result success">
+                                <div style="width: 100%;">
+                                    <strong>✅ ${categoryName} (${data.count} products)</strong>
+                                    <div class="product-preview">
+                                        ${data.products.slice(0, 6).map(product => `
+                                            <div class="product-card">
+                                                <img src="${product.image_url}" alt="${product.title}" 
+                                                     onerror="this.src='https://via.placeholder.com/100x100/ec4899/ffffff?text=${encodeURIComponent(product.title.substring(0, 10))}'">
+                                                <div style="margin-top: 5px; font-weight: bold;">₹${product.price}</div>
+                                                <div style="height: 30px; overflow: hidden;">${product.title.substring(0, 30)}...</div>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        html += `
+                            <div class="category-result error">
+                                <strong>❌ ${categoryName}</strong><br>
+                                <small>No products found</small>
+                            </div>
+                        `;
+                    }
+                } catch (error) {
+                    html += `
+                        <div class="category-result error">
+                            <strong>❌ ${categoryName}</strong><br>
+                            <small>Error: ${error.message}</small>
+                        </div>
+                    `;
+                }
+            }
+            
+            resultsDiv.innerHTML = html;
+        }
+        
+        function clearResults() {
+            document.getElementById('results').innerHTML = '';
+            document.getElementById('stats').style.display = 'none';
+        }
+        
+        // Auto-verify on page load
+        window.onload = () => {
+            setTimeout(verifyAllCategories, 500);
+        };
+    </script>
+</body>
+</html>

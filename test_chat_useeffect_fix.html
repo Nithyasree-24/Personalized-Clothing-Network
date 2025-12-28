@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat useEffect Fix Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        .test-button {
+            background: linear-gradient(135deg, #ec4899, #be185d);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+        }
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+        }
+        .console-output {
+            background: #1a1a1a;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin: 10px 0;
+        }
+        .test-steps {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #ec4899;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🔧 Chat useEffect Dependency Array Fix Test</h1>
+        <p>This test verifies that the useEffect dependency array error has been resolved in the AIChatBox component.</p>
+        
+        <div class="test-steps">
+            <h3>📋 Test Steps:</h3>
+            <ol>
+                <li><strong>Open Browser Console</strong> - Press F12 and go to Console tab</li>
+                <li><strong>Navigate to Chat</strong> - Go to the main site and open the chat bot</li>
+                <li><strong>Send Messages</strong> - Send a few messages to trigger re-renders</li>
+                <li><strong>Check Console</strong> - Look for useEffect dependency array errors</li>
+                <li><strong>Test Persistence</strong> - Refresh page and check if chat persists</li>
+            </ol>
+        </div>
+
+        <div class="status info">
+            <strong>🔍 What to Look For:</strong><br>
+            • No "useEffect changed size between renders" errors<br>
+            • Chat messages persist after page refresh<br>
+            • Chat clears when user logs out<br>
+            • No console warnings about dependency arrays
+        </div>
+
+        <button class="test-button" onclick="openMainSite()">🌐 Open Main Site</button>
+        <button class="test-button" onclick="testChatPersistence()">💾 Test Chat Persistence</button>
+        <button class="test-button" onclick="simulateLogout()">🚪 Simulate Logout</button>
+        <button class="test-button" onclick="checkConsoleErrors()">🔍 Check Console</button>
+    </div>
+
+    <div class="test-container">
+        <h2>🧪 Test Results</h2>
+        <div id="testResults">
+            <div class="status info">
+                <strong>Ready to test!</strong> Click the buttons above to run tests.
+            </div>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <h2>📊 Console Monitor</h2>
+        <div class="console-output" id="consoleOutput">
+            Console output will appear here...
+        </div>
+    </div>
+
+    <script>
+        let consoleOutput = document.getElementById('consoleOutput');
+        let testResults = document.getElementById('testResults');
+        
+        // Capture console errors
+        let originalConsoleError = console.error;
+        let originalConsoleWarn = console.warn;
+        let errorCount = 0;
+        let warningCount = 0;
+        
+        console.error = function(...args) {
+            errorCount++;
+            logToConsole('ERROR', args.join(' '));
+            originalConsoleError.apply(console, args);
+        };
+        
+        console.warn = function(...args) {
+            warningCount++;
+            logToConsole('WARN', args.join(' '));
+            originalConsoleWarn.apply(console, args);
+        };
+        
+        function logToConsole(level, message) {
+            const timestamp = new Date().toLocaleTimeString();
+            const color = level === 'ERROR' ? '#ff4444' : level === 'WARN' ? '#ffaa00' : '#00ff00';
+            consoleOutput.innerHTML += `<div style="color: ${color}">[${timestamp}] ${level}: ${message}</div>`;
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        }
+        
+        function openMainSite() {
+            logToConsole('INFO', 'Opening main site...');
+            window.open('http://localhost:3000', '_blank');
+            updateTestResults('info', '🌐 Main site opened in new tab. Open chat and test for useEffect errors.');
+        }
+        
+        function testChatPersistence() {
+            logToConsole('INFO', 'Testing chat persistence...');
+            
+            // Set up test user
+            localStorage.setItem('user_id', 'test_user_' + Date.now());
+            
+            // Create test chat data
+            const testChatData = {
+                messages: [
+                    { text: "Hi! I'm your fashion assistant 👗 What are you looking for today?", isUser: false, timestamp: new Date().toISOString() },
+                    { text: "Test message for persistence", isUser: true, timestamp: new Date().toISOString() },
+                    { text: "This is a test response", isUser: false, timestamp: new Date().toISOString() }
+                ],
+                sessionId: 'test_session_' + Date.now(),
+                userId: localStorage.getItem('user_id'),
+                lastUpdated: new Date().toISOString(),
+                version: '1.0'
+            };
+            
+            const chatKey = `fashionpulse_chat_${localStorage.getItem('user_id')}`;
+            localStorage.setItem(chatKey, JSON.stringify(testChatData));
+            
+            logToConsole('INFO', `Chat data saved to localStorage with key: ${chatKey}`);
+            updateTestResults('success', '💾 Test chat data created. Refresh the page to test persistence.');
+        }
+        
+        function simulateLogout() {
+            logToConsole('INFO', 'Simulating logout...');
+            
+            // Trigger logout event
+            window.dispatchEvent(new CustomEvent('fashionpulse-logout', {
+                detail: { userId: localStorage.getItem('user_id'), timestamp: new Date().toISOString() }
+            }));
+            
+            // Call global function if available
+            if (window.clearFashionPulseChat) {
+                window.clearFashionPulseChat();
+                logToConsole('INFO', 'Global clearFashionPulseChat function called');
+            }
+            
+            // Clear user data
+            localStorage.removeItem('user_id');
+            localStorage.removeItem('token');
+            
+            updateTestResults('success', '🚪 Logout simulated. Chat should be cleared.');
+        }
+        
+        function checkConsoleErrors() {
+            logToConsole('INFO', 'Checking console for errors...');
+            
+            let status = 'success';
+            let message = '';
+            
+            if (errorCount === 0 && warningCount === 0) {
+                message = '✅ No console errors or warnings detected!';
+            } else if (errorCount === 0 && warningCount > 0) {
+                status = 'info';
+                message = `⚠️ ${warningCount} warnings detected (no errors)`;
+            } else {
+                status = 'error';
+                message = `❌ ${errorCount} errors and ${warningCount} warnings detected`;
+            }
+            
+            updateTestResults(status, message);
+        }
+        
+        function updateTestResults(type, message) {
+            testResults.innerHTML = `<div class="status ${type}"><strong>${message}</strong></div>`;
+        }
+        
+        // Initialize
+        logToConsole('INFO', 'Chat useEffect Fix Test initialized');
+        logToConsole('INFO', 'Monitoring console for useEffect dependency array errors...');
+        
+        // Check for existing chat data
+        setTimeout(() => {
+            const userId = localStorage.getItem('user_id');
+            if (userId) {
+                const chatKey = `fashionpulse_chat_${userId}`;
+                const existingChat = localStorage.getItem(chatKey);
+                if (existingChat) {
+                    logToConsole('INFO', `Found existing chat data for user: ${userId}`);
+                } else {
+                    logToConsole('INFO', `No existing chat data found for user: ${userId}`);
+                }
+            } else {
+                logToConsole('INFO', 'No user_id found in localStorage');
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

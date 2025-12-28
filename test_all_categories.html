@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test All Categories</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #fce7f3, #fbcfe8);
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .category-test {
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+        }
+        .success { background: #d1fae5; border-color: #10b981; }
+        .error { background: #fee2e2; border-color: #ef4444; }
+        .loading { background: #dbeafe; border-color: #3b82f6; }
+        button {
+            background: linear-gradient(135deg, #ec4899, #be185d);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 12px;
+        }
+        .results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Test All Categories</h1>
+        <p>Testing all categories to see which ones have products and which ones are missing</p>
+        
+        <button onclick="testAllCategories()">🧪 Test All Categories</button>
+        <button onclick="testDatabaseCategories()">📊 Test Database Categories</button>
+        <button onclick="clearResults()">🗑️ Clear</button>
+        
+        <div id="results" class="results"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000/api';
+        
+        // Categories from sidebar
+        const sidebarCategories = {
+            'Women': ['All Women', 'Western Wear', 'Dresses', 'Ethnic Wear', 'Tops and Co-ord Sets', "Women's Bottomwear"],
+            'Men': ['All Men', 'shirts', 'T-shirts', 'Bottom Wear', 'Hoodies']
+        };
+        
+        // Categories from database
+        const databaseCategories = [
+            'Bottom Wear', 'Dresses', 'Ethnic Wear', 'Hoodies', 'shirts', 'T-shirts',
+            'Tops and Co-ord Sets', 'Western Wear', 'Women WearWomen\'s Bottomwear',
+            'Women\'s Bottomwear'
+        ];
+        
+        async function testCategory(category, isGender = false) {
+            try {
+                let url;
+                if (isGender) {
+                    url = `${API_BASE}/products/category/${encodeURIComponent(category.toLowerCase())}?limit=50`;
+                } else {
+                    url = `${API_BASE}/products/category/${encodeURIComponent(category)}?limit=50`;
+                }
+                
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                return {
+                    category: category,
+                    success: data.success,
+                    count: data.count || 0,
+                    url: url,
+                    error: data.success ? null : 'API returned success: false'
+                };
+            } catch (error) {
+                return {
+                    category: category,
+                    success: false,
+                    count: 0,
+                    url: '',
+                    error: error.message
+                };
+            }
+        }
+        
+        async function testAllCategories() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<div class="loading">🔄 Testing all sidebar categories...</div>';
+            
+            const allTests = [];
+            
+            // Test gender categories
+            allTests.push(testCategory('All Women', true));
+            allTests.push(testCategory('All Men', true));
+            
+            // Test all sidebar categories
+            for (const [gender, categories] of Object.entries(sidebarCategories)) {
+                for (const category of categories) {
+                    if (!category.startsWith('All ')) {
+                        allTests.push(testCategory(category));
+                    }
+                }
+            }
+            
+            const results = await Promise.all(allTests);
+            
+            let html = '<h3>📋 Sidebar Categories Test Results:</h3>';
+            
+            for (const result of results) {
+                const statusClass = result.success && result.count > 0 ? 'success' : 'error';
+                const statusIcon = result.success && result.count > 0 ? '✅' : '❌';
+                
+                html += `
+                    <div class="category-test ${statusClass}">
+                        <strong>${statusIcon} ${result.category}</strong><br>
+                        Products: ${result.count}<br>
+                        Status: ${result.success ? 'SUCCESS' : 'FAILED'}<br>
+                        ${result.error ? `Error: ${result.error}<br>` : ''}
+                        <small>URL: ${result.url}</small>
+                    </div>
+                `;
+            }
+            
+            resultsDiv.innerHTML = html;
+        }
+        
+        async function testDatabaseCategories() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<div class="loading">🔄 Testing all database categories...</div>';
+            
+            const allTests = databaseCategories.map(category => testCategory(category));
+            const results = await Promise.all(allTests);
+            
+            let html = '<h3>📊 Database Categories Test Results:</h3>';
+            
+            for (const result of results) {
+                const statusClass = result.success && result.count > 0 ? 'success' : 'error';
+                const statusIcon = result.success && result.count > 0 ? '✅' : '❌';
+                
+                html += `
+                    <div class="category-test ${statusClass}">
+                        <strong>${statusIcon} ${result.category}</strong><br>
+                        Products: ${result.count}<br>
+                        Status: ${result.success ? 'SUCCESS' : 'FAILED'}<br>
+                        ${result.error ? `Error: ${result.error}<br>` : ''}
+                        <small>URL: ${result.url}</small>
+                    </div>
+                `;
+            }
+            
+            // Add comparison
+            html += '<h3>🔍 Missing Categories Analysis:</h3>';
+            
+            const sidebarCats = [];
+            for (const [gender, categories] of Object.entries(sidebarCategories)) {
+                sidebarCats.push(...categories.filter(c => !c.startsWith('All ')));
+            }
+            
+            const missingInSidebar = databaseCategories.filter(dbCat => 
+                !sidebarCats.includes(dbCat)
+            );
+            
+            const missingInDatabase = sidebarCats.filter(sidebarCat => 
+                !databaseCategories.includes(sidebarCat)
+            );
+            
+            if (missingInSidebar.length > 0) {
+                html += `<div class="category-test error">
+                    <strong>❌ Categories in Database but NOT in Sidebar:</strong><br>
+                    ${missingInSidebar.join(', ')}
+                </div>`;
+            }
+            
+            if (missingInDatabase.length > 0) {
+                html += `<div class="category-test error">
+                    <strong>❌ Categories in Sidebar but NOT in Database:</strong><br>
+                    ${missingInDatabase.join(', ')}
+                </div>`;
+            }
+            
+            resultsDiv.innerHTML = html;
+        }
+        
+        function clearResults() {
+            document.getElementById('results').innerHTML = '';
+        }
+        
+        // Auto-test on page load
+        window.onload = () => {
+            setTimeout(testAllCategories, 500);
+        };
+    </script>
+</body>
+</html>

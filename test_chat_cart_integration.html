@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Cart Integration Test</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container { 
+            max-width: 900px; 
+            margin: 0 auto; 
+            background: white; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        .header { 
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24); 
+            color: white; 
+            padding: 20px; 
+            text-align: center; 
+        }
+        .content { 
+            padding: 30px; 
+        }
+        .feature-section { 
+            margin: 25px 0; 
+            padding: 20px; 
+            border: 2px solid #e0e0e0; 
+            border-radius: 10px; 
+            background: #f9f9f9;
+        }
+        .feature-title { 
+            font-weight: bold; 
+            color: #333; 
+            margin-bottom: 15px; 
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .query-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 10px; 
+            margin-top: 15px;
+        }
+        .query-item { 
+            background: white; 
+            padding: 12px; 
+            border-radius: 8px; 
+            border-left: 4px solid #667eea; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        .query-item:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            border-left-color: #ff6b6b;
+        }
+        .highlight-box { 
+            background: linear-gradient(135deg, #74b9ff, #0984e3); 
+            color: white; 
+            padding: 20px; 
+            border-radius: 10px; 
+            margin: 20px 0;
+        }
+        .navigation-flow { 
+            background: linear-gradient(135deg, #fdcb6e, #e17055); 
+            color: white; 
+            padding: 20px; 
+            border-radius: 10px; 
+            margin: 20px 0;
+        }
+        .flow-step { 
+            display: flex; 
+            align-items: center; 
+            margin: 10px 0; 
+            padding: 10px; 
+            background: rgba(255,255,255,0.1); 
+            border-radius: 8px;
+        }
+        .step-number { 
+            background: white; 
+            color: #e17055; 
+            width: 30px; 
+            height: 30px; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-weight: bold; 
+            margin-right: 15px;
+        }
+        .code-block { 
+            background: #2d3436; 
+            color: #ddd; 
+            padding: 15px; 
+            border-radius: 8px; 
+            font-family: monospace; 
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛒 Chat Cart Integration Complete!</h1>
+            <p>Enhanced chat with cart, wishlist, orders & smart navigation</p>
+        </div>
+        
+        <div class="content">
+            <div class="highlight-box">
+                <h2>🎯 New Features Implemented</h2>
+                <ul style="list-style: none; padding: 0;">
+                    <li>✅ Cart integration - "Show my cart" displays cart items in chat</li>
+                    <li>✅ Wishlist integration - "My wishlist" shows saved items</li>
+                    <li>✅ Orders integration - "My orders" displays order history</li>
+                    <li>✅ Smart navigation - Chat → Product → Back to Chat</li>
+                    <li>✅ Session persistence - Chat state preserved during navigation</li>
+                    <li>✅ Enhanced quick suggestions with cart/wishlist/orders</li>
+                </ul>
+            </div>
+
+            <div class="feature-section">
+                <div class="feature-title">
+                    🛒 Cart Queries
+                </div>
+                <p>Ask about your cart and see items directly in chat:</p>
+                <div class="query-grid">
+                    <div class="query-item">Show my cart</div>
+                    <div class="query-item">What's in my cart?</div>
+                    <div class="query-item">Cart items</div>
+                    <div class="query-item">My cart details</div>
+                </div>
+            </div>
+
+            <div class="feature-section">
+                <div class="feature-title">
+                    ❤️ Wishlist Queries
+                </div>
+                <p>View your saved items through chat:</p>
+                <div class="query-grid">
+                    <div class="query-item">My wishlist</div>
+                    <div class="query-item">Show wishlist</div>
+                    <div class="query-item">Saved items</div>
+                    <div class="query-item">My favorites</div>
+                </div>
+            </div>
+
+            <div class="feature-section">
+                <div class="feature-title">
+                    📦 Orders Queries
+                </div>
+                <p>Check your order history via chat:</p>
+                <div class="query-grid">
+                    <div class="query-item">My orders</div>
+                    <div class="query-item">Show orders</div>
+                    <div class="query-item">Order history</div>
+                    <div class="query-item">Past orders</div>
+                </div>
+            </div>
+
+            <div class="navigation-flow">
+                <h3>🔄 Smart Navigation Flow</h3>
+                <p>Seamless navigation between chat and product pages:</p>
+                
+                <div class="flow-step">
+                    <div class="step-number">1</div>
+                    <div>User searches products in chat: "Show red dresses"</div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">2</div>
+                    <div>Chat displays product cards with images and details</div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">3</div>
+                    <div>User clicks product → navigates to product page (same tab)</div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">4</div>
+                    <div>Chat state saved to sessionStorage before navigation</div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">5</div>
+                    <div>User clicks browser back button → returns to home with chat restored</div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">6</div>
+                    <div>Chat automatically reopens with previous conversation intact!</div>
+                </div>
+            </div>
+
+            <div class="feature-section">
+                <div class="feature-title">
+                    🔧 Technical Implementation
+                </div>
+                <div class="code-block">
+// Chat Agent Enhanced Response Types
+{
+  type: 'cart_request',
+  reply: "Let me show you what's in your cart! 🛒",
+  action: 'show_cart'
+}
+
+// Navigation State Management
+sessionStorage.setItem('fashionpulse_chat_return', JSON.stringify({
+  isOpen: true,
+  messages: currentMessages,
+  timestamp: new Date().toISOString()
+}));
+
+// Cart Integration
+const cartProducts = cart.map(item => ({
+  product_id: String(item.id),
+  product_name: item.title,
+  price: item.price,
+  // ... product details for chat display
+}));
+                </div>
+            </div>
+
+            <div class="feature-section">
+                <div class="feature-title">
+                    🎮 How to Test
+                </div>
+                <ol style="line-height: 1.8;">
+                    <li><strong>Start the chat server:</strong> <code>python chat_agent/lightweight_api_server.py</code></li>
+                    <li><strong>Start the Next.js app:</strong> <code>npm run dev</code></li>
+                    <li><strong>Add items to cart/wishlist</strong> from the product pages</li>
+                    <li><strong>Open chat</strong> and try queries like "Show my cart"</li>
+                    <li><strong>Click on products</strong> in chat to test navigation</li>
+                    <li><strong>Use browser back button</strong> to return to chat</li>
+                    <li><strong>Test order history</strong> after placing some orders</li>
+                </ol>
+            </div>
+
+            <div class="highlight-box">
+                <h3>🚀 Ready to Use!</h3>
+                <p>The enhanced chat system now provides a complete e-commerce experience:</p>
+                <ul style="list-style: none; padding: 0; margin-top: 15px;">
+                    <li>💬 Natural conversation with product search</li>
+                    <li>🛒 Real-time cart and wishlist integration</li>
+                    <li>📦 Order history and tracking</li>
+                    <li>🔄 Seamless navigation with state persistence</li>
+                    <li>📱 Mobile-friendly responsive design</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add click handlers to query items for easy copying
+        document.querySelectorAll('.query-item').forEach(item => {
+            item.addEventListener('click', function() {
+                navigator.clipboard.writeText(this.textContent).then(() => {
+                    this.style.background = '#74b9ff';
+                    this.style.color = 'white';
+                    setTimeout(() => {
+                        this.style.background = 'white';
+                        this.style.color = 'black';
+                    }, 500);
+                });
+            });
+        });
+
+        console.log('🛒 Chat Cart Integration Test Page Loaded');
+        console.log('💡 Click any query to copy it to clipboard');
+        console.log('🚀 All features: cart, wishlist, orders, navigation');
+    </script>
+</body>
+</html>

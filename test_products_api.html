@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Products API</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .product { border: 1px solid #ccc; margin: 10px; padding: 10px; }
+        .loading { color: blue; }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <h1>Products API Test</h1>
+    <button onclick="testAPI()">Test API</button>
+    <div id="result"></div>
+
+    <script>
+        async function testAPI() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<div class="loading">Loading products...</div>';
+            
+            try {
+                const response = await fetch('http://localhost:5000/api/products/search?query=clothing%20fashion');
+                const data = await response.json();
+                
+                if (data.success && data.products) {
+                    resultDiv.innerHTML = `
+                        <div class="success">✅ API Working! Found ${data.products.length} products</div>
+                        <h3>Products:</h3>
+                    `;
+                    
+                    data.products.forEach(product => {
+                        resultDiv.innerHTML += `
+                            <div class="product">
+                                <h4>${product.title}</h4>
+                                <p>Price: ₹${product.price}</p>
+                                <p>Gender: ${product.gender}</p>
+                                <p>Category: ${product.category}</p>
+                                ${product.image_url ? `<img src="${product.image_url}" width="100" alt="${product.title}">` : ''}
+                            </div>
+                        `;
+                    });
+                } else {
+                    resultDiv.innerHTML = `<div class="error">❌ No products found</div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Error: ${error.message}</div>`;
+            }
+        }
+    </script>
+</body>
+</html>

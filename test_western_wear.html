@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Western Wear Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #fce7f3, #fbcfe8);
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        .success { background: #d1fae5; color: #065f46; }
+        .error { background: #fee2e2; color: #991b1b; }
+        .loading { background: #dbeafe; color: #1e40af; }
+        button {
+            background: linear-gradient(135deg, #ec4899, #be185d);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 8px;
+            font-weight: bold;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .product-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .product-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .product-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin: 10px 0 5px 0;
+            height: 40px;
+            overflow: hidden;
+        }
+        .product-price {
+            color: #ec4899;
+            font-weight: bold;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Western Wear Products Test</h1>
+        <p>Testing if Western Wear products are loading correctly from the backend</p>
+        
+        <div id="status" class="status loading">🔄 Ready to test...</div>
+        
+        <div>
+            <button onclick="testWesternWear()">🧥 Test Western Wear</button>
+            <button onclick="testAllWomen()">👩 Test All Women</button>
+            <button onclick="testDirect()">🔗 Test Direct API</button>
+            <button onclick="clearResults()">🗑️ Clear</button>
+        </div>
+        
+        <div id="results"></div>
+        <div id="products" class="product-grid"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000/api';
+        
+        function updateStatus(message, type = 'loading') {
+            const statusDiv = document.getElementById('status');
+            statusDiv.className = `status ${type}`;
+            statusDiv.innerHTML = message;
+        }
+        
+        async function testWesternWear() {
+            updateStatus('🔄 Testing Western Wear category filtering...', 'loading');
+            
+            try {
+                // Test using the same API call as frontend
+                const url = `${API_BASE}/products/category/${encodeURIComponent('Western Wear')}?limit=50`;
+                console.log('Fetching from URL:', url);
+                
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (data.success && data.products) {
+                    updateStatus(`✅ Western Wear test passed! Found ${data.count} products`, 'success');
+                    
+                    // Display products
+                    const productsToShow = data.products.slice(0, 12);
+                    document.getElementById('products').innerHTML = productsToShow.map(product => `
+                        <div class="product-card">
+                            <img src="${product.image_url}" alt="${product.title}" 
+                                 onerror="this.src='https://via.placeholder.com/150x150?text=No+Image'">
+                            <div class="product-title">${product.title}</div>
+                            <div class="product-price">₹${product.price}</div>
+                            <div style="font-size: 12px; color: #666; margin-top: 5px;">
+                                ${product.category} | ${product.gender}
+                            </div>
+                        </div>
+                    `).join('');
+                    
+                    document.getElementById('results').innerHTML = `
+                        <div class="status success">
+                            <h3>✅ Western Wear Test Results:</h3>
+                            <ul>
+                                <li><strong>API URL:</strong> ${url}</li>
+                                <li><strong>Products Found:</strong> ${data.count}</li>
+                                <li><strong>Response Status:</strong> ${data.success}</li>
+                                <li><strong>Displaying:</strong> First 12 products</li>
+                            </ul>
+                        </div>
+                    `;
+                } else {
+                    throw new Error('No Western Wear products found or invalid response');
+                }
+            } catch (error) {
+                updateStatus(`❌ Western Wear test failed: ${error.message}`, 'error');
+                console.error('Error:', error);
+                
+                document.getElementById('results').innerHTML = `
+                    <div class="status error">
+                        <h3>❌ Test Failed:</h3>
+                        <p><strong>Error:</strong> ${error.message}</p>
+                        <p>Check browser console for more details</p>
+                    </div>
+                `;
+            }
+        }
+        
+        async function testAllWomen() {
+            updateStatus('🔄 Testing All Women category...', 'loading');
+            
+            try {
+                const url = `${API_BASE}/products/category/women?limit=50`;
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (data.success) {
+                    updateStatus(`✅ All Women test passed! Found ${data.count} products`, 'success');
+                    
+                    document.getElementById('results').innerHTML = `
+                        <div class="status success">
+                            <h3>✅ All Women Test Results:</h3>
+                            <ul>
+                                <li><strong>Products Found:</strong> ${data.count}</li>
+                                <li><strong>Expected:</strong> ~185 products</li>
+                                <li><strong>Status:</strong> ${data.count > 100 ? 'PASS' : 'FAIL'}</li>
+                            </ul>
+                        </div>
+                    `;
+                } else {
+                    throw new Error('All Women test failed');
+                }
+            } catch (error) {
+                updateStatus(`❌ All Women test failed: ${error.message}`, 'error');
+            }
+        }
+        
+        async function testDirect() {
+            updateStatus('🔄 Testing direct database query...', 'loading');
+            
+            try {
+                // Test multiple categories
+                const categories = ['Western Wear', 'Dresses', 'Ethnic Wear'];
+                let results = [];
+                
+                for (const category of categories) {
+                    const url = `${API_BASE}/products/category/${encodeURIComponent(category)}?limit=10`;
+                    const response = await fetch(url);
+                    const data = await response.json();
+                    
+                    results.push({
+                        category: category,
+                        count: data.count || 0,
+                        success: data.success || false
+                    });
+                }
+                
+                updateStatus('✅ Direct API tests completed', 'success');
+                
+                document.getElementById('results').innerHTML = `
+                    <div class="status success">
+                        <h3>✅ Direct API Test Results:</h3>
+                        <ul>
+                            ${results.map(r => `
+                                <li><strong>${r.category}:</strong> ${r.count} products (${r.success ? 'SUCCESS' : 'FAILED'})</li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                `;
+                
+            } catch (error) {
+                updateStatus(`❌ Direct API test failed: ${error.message}`, 'error');
+            }
+        }
+        
+        function clearResults() {
+            document.getElementById('products').innerHTML = '';
+            document.getElementById('results').innerHTML = '';
+            updateStatus('🔄 Ready to test...', 'loading');
+        }
+        
+        // Auto-test on page load
+        window.onload = () => {
+            setTimeout(testWesternWear, 500);
+        };
+    </script>
+</body>
+</html>
